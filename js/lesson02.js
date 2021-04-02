@@ -7,3 +7,10 @@ while (num > 0) {
   num = Math.floor(num / 10); // делим на 10 в меньшую сторону, тем самым уменьшая порядок чисел
 }
 console.log(sum);
+
+sum **= 3; // возведение в степень
+console.log(sum);
+
+let two = String(sum); //преобразование к строке
+
+console.log(two.slice(0, 2)); //срез строки по указанным индексам
