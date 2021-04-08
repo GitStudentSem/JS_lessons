@@ -1,14 +1,24 @@
 "use strict";
 // lesson 2
-let money = Number(prompt("Ваш месячный доход?"));
-let income = "премия";
-let addExpenses = prompt(
-  "Перечислите возможные расходы за рассчитываемый период через запятую",
-  "кварплата,еда,бензин"
-);
-let deposit = confirm("Есть ли у вас депозит в банке?");
-let mission = 100000;
-let period = 6;
+let money,
+  income = "премия",
+  addExpenses = prompt(
+    "Перечислите возможные расходы за рассчитываемый период через запятую",
+    "кварплата,еда,бензин"
+  ),
+  deposit = confirm("Есть ли у вас депозит в банке?"),
+  mission = 100000,
+  period = 6,
+  expenses = [];
+
+// let start = function () {
+//   money = prompt("Ваш месячный доход?");
+
+//   while (isNaN(money) || money.trim() === "" || money === null) {
+//     money = prompt("Ваш месячный доход?");
+//   }
+// };
+// start();
 
 console.log(typeof money);
 console.log(typeof income);
@@ -20,16 +30,41 @@ console.log(String(addExpenses.toLowerCase().split(",")));
 
 // lesson 3
 
-function getExpensesMonth() {
-  let spending1 = prompt("Введите обязательную статью расходов?", "кварплата");
-  let cost1 = Number(prompt("Во сколько это обойдется?"));
-  let spending2 = prompt("Введите обязательную статью расходов?", "еда");
-  let cost2 = Number(prompt("Во сколько это обойдется?"));
-  return cost1 + cost2;
-}
+// function getExpensesMonth() {
+//   let spending1 = prompt("Введите обязательную статью расходов?", "кварплата");
+//   let cost1 = Number(prompt("Во сколько это обойдется?"));
+//   let spending2 = prompt("Введите обязательную статью расходов?", "еда");
+//   let cost2 = Number(prompt("Во сколько это обойдется?"));
+//   return cost1 + cost2;
+// }
+
+do {
+  money = +prompt("Ваш месячный доход?");
+} while (isNaN(parseFloat(money)));
+console.log("money тип данных: ", typeof money);
+
+let getExpensesMonth = function () {
+  let sum = 0;
+
+  for (let i = 0; i < 2; i++) {
+    expenses[i] = prompt("Введите обязательную статью расходов?");
+    let expens = prompt("Во сколько это обойдется?"); //строка
+
+    do {
+      let expens = prompt("Во сколько это обойдется?");
+      console.log("В цикле: ", expens);
+      if (isNaN(parseFloat(expens))) {
+        break;
+      }
+    } while (!isNaN(parseFloat(expens)));
+  }
+  return sum;
+};
+
+let expensesAmount = getExpensesMonth();
 
 function getAccumulatedMonth(money) {
-  return money - getExpensesMonth();
+  return money - expensesAmount;
 }
 
 let accumulatedMonth = getAccumulatedMonth(money);
