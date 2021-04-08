@@ -11,15 +11,6 @@ let money,
   period = 6,
   expenses = [];
 
-// let start = function () {
-//   money = prompt("Ваш месячный доход?");
-
-//   while (isNaN(money) || money.trim() === "" || money === null) {
-//     money = prompt("Ваш месячный доход?");
-//   }
-// };
-// start();
-
 console.log(typeof money);
 console.log(typeof income);
 console.log(typeof deposit);
@@ -27,16 +18,6 @@ console.log(addExpenses.length);
 console.log("Период равен " + period + " месяцев");
 console.log("Цель заработать " + mission + " рублей");
 console.log(String(addExpenses.toLowerCase().split(",")));
-
-// lesson 3
-
-// function getExpensesMonth() {
-//   let spending1 = prompt("Введите обязательную статью расходов?", "кварплата");
-//   let cost1 = Number(prompt("Во сколько это обойдется?"));
-//   let spending2 = prompt("Введите обязательную статью расходов?", "еда");
-//   let cost2 = Number(prompt("Во сколько это обойдется?"));
-//   return cost1 + cost2;
-// }
 
 do {
   money = +prompt("Ваш месячный доход?");
@@ -48,15 +29,14 @@ let getExpensesMonth = function () {
 
   for (let i = 0; i < 2; i++) {
     expenses[i] = prompt("Введите обязательную статью расходов?");
-    let expens = prompt("Во сколько это обойдется?"); //строка
+
+    let expens;
 
     do {
-      let expens = prompt("Во сколько это обойдется?");
-      console.log("В цикле: ", expens);
-      if (isNaN(parseFloat(expens))) {
-        break;
-      }
-    } while (!isNaN(parseFloat(expens)));
+      expens = prompt("Во сколько это обойдется?");
+    } while (isNaN(parseFloat(expens))); // если приходит NaN возвращает true
+
+    sum += +expens;
   }
   return sum;
 };
@@ -70,11 +50,15 @@ function getAccumulatedMonth(money) {
 let accumulatedMonth = getAccumulatedMonth(money);
 
 function getTargetMonth() {
-  console.log(
-    "Цель будет достигнута за " +
-      Math.ceil(mission / accumulatedMonth) +
-      " месяцев(-а)"
-  );
+  if (Math.ceil(mission / accumulatedMonth) > 0) {
+    console.log(
+      "Цель будет достигнута за " +
+        Math.ceil(mission / accumulatedMonth) +
+        " месяцев(-а)"
+    );
+  } else {
+    console.log("Цель не будет достигнута");
+  }
 }
 getTargetMonth();
 
