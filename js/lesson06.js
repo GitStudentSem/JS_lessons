@@ -29,4 +29,3 @@ function hideNumber() {
 }
 
 let play = hideNumber(); // check это функция checkingIsNumber
-console.log(play());
