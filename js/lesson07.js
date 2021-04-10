@@ -59,10 +59,10 @@ let appData = {
   },
 
   getTargetMonth: function () {
-    if (Math.ceil(appData.mission / accumulatedMonth) > 0) {
+    if (Math.ceil(appData.mission / appData.budgetMonth) > 0) {
       console.log(
         "Цель будет достигнута за " +
-          Math.ceil(appData.mission / accumulatedMonth) +
+          Math.ceil(appData.mission / appData.budgetMonth) +
           " месяцев(-а)"
       );
     } else {
@@ -83,11 +83,11 @@ appData.asking();
 appData.getBudget();
 appData.getTargetMonth();
 appData.getExpensesMonth();
-appData.getStatusIncome(budgetDay);
+appData.getStatusIncome(appData.budgetDay);
 console.log(typeof money);
 console.log(typeof appData.income);
 console.log(typeof appData.deposit);
 console.log(appData.addExpenses.length);
 console.log("Период равен " + appData.period + " месяцев");
 console.log("Цель заработать " + appData.mission + " рублей");
-console.log("Бюджет на день: ", budgetDay);
+console.log("Бюджет на день: ", appData.budgetDay);
