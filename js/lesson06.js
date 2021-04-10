@@ -2,9 +2,10 @@
 
 function hideNumber() {
   let secretNumber = 38; // замкнуто секретное число
-
+  // создается переменная с вводом числа
+  checkingIsNumber();
   // рекурсия
-  return function checkingIsNumber() {
+  function checkingIsNumber() {
     let interNumber = prompt("Угадай число от 1 до 100");
     // если введенное число - не число ввести снова
     if (isNaN(parseFloat(interNumber))) {
@@ -25,8 +26,7 @@ function hideNumber() {
         }
       }
     }
-  };
+  }
 }
 
-let play = hideNumber(); // play это функция checkingIsNumber
-play();
+hideNumber();
