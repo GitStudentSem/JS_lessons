@@ -1,11 +1,24 @@
 "use strict";
-let money,
-  start = function () {
-    do {
-      money = +prompt("Ваш месячный доход?");
-    } while (isNaN(parseFloat(money)));
-  };
-start();
+let isNumber = function (n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+};
+///
+let start = function () {
+  let money;
+  do {
+    money = prompt("Ваш месячный доход?");
+  } while (!isNumber(money));
+  return +money;
+};
+let money = start();
+///
+// let money;
+// let start = function () {
+//   do {
+//     money = prompt("Ваш месячный доход?");
+//   } while (isNumber(money));
+// };
+// start();
 // Кирилл, здесь переменная money и в объекте appData budget: money они связаны?
 
 let appData = {
@@ -49,11 +62,10 @@ let appData = {
     }
     appData.expensesMonth += sum;
   },
-  getBudget: function (money) {
-    return appData.budget - expensesAmount;
+  getBudget: function () {
+    appData.budgetMonth = appData.budget - appData.expensesMonth;
     /* Кирилл, я не понимаю что делать с expensesAmount. По идее это же сумма расходов из функции asking (там происходит их сложение и запись в appData.expenses)
-    Значит нужно взять значения ключей appData.expenses и сложить их? Хотел бы использовать переменную sum из метода getExpensesMonth,но я так понимаю, что она не доступна из-за области видимости
-    */
+    Значит нужно взять значения ключей appData.expenses и сложить их? Хотел бы использовать переменную sum из метода getExpensesMonth,но я так понимаю, что она не доступна из-за области видимости*/
   },
 
   getTargetMonth: function () {
