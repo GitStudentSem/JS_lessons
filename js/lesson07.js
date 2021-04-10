@@ -11,15 +11,6 @@ let start = function () {
   return +money;
 };
 let money = start();
-///
-// let money;
-// let start = function () {
-//   do {
-//     money = prompt("Ваш месячный доход?");
-//   } while (isNumber(money));
-// };
-// start();
-// Кирилл, здесь переменная money и в объекте appData budget: money они связаны?
 
 let appData = {
   income: {},
@@ -45,7 +36,7 @@ let appData = {
       let answer;
       do {
         answer = prompt("Во сколько это обойдется?");
-      } while (isNaN(parseFloat(answer))); // если приходит NaN возвращает true
+      } while (!isNumber(answer));
 
       /*
       В question попадает ответ пользователя, делаю его ключом через квадратные скобки
@@ -64,8 +55,7 @@ let appData = {
   },
   getBudget: function () {
     appData.budgetMonth = appData.budget - appData.expensesMonth;
-    /* Кирилл, я не понимаю что делать с expensesAmount. По идее это же сумма расходов из функции asking (там происходит их сложение и запись в appData.expenses)
-    Значит нужно взять значения ключей appData.expenses и сложить их? Хотел бы использовать переменную sum из метода getExpensesMonth,но я так понимаю, что она не доступна из-за области видимости*/
+    appData.budgetDay = appData.budgetMonth / 30;
   },
 
   getTargetMonth: function () {
@@ -90,27 +80,14 @@ let appData = {
   },
 };
 appData.asking();
-
+appData.getBudget();
+appData.getTargetMonth();
+appData.getExpensesMonth();
+appData.getStatusIncome(budgetDay);
 console.log(typeof money);
 console.log(typeof appData.income);
 console.log(typeof appData.deposit);
 console.log(appData.addExpenses.length);
 console.log("Период равен " + appData.period + " месяцев");
 console.log("Цель заработать " + appData.mission + " рублей");
-
-let expensesAmount = appData.asking;
-// Кирилл, не понимаю куда их детьредактор ругается, что они вызываются раньше объявления
-let accumulatedMonth = appData.getBudget(money);
-// Кирилл, не понимаю куда их деть, редактор ругается, что они вызываются раньше объявления
-
-appData.getTargetMonth();
-
-let budgetDay = accumulatedMonth / 30;
 console.log("Бюджет на день: ", budgetDay);
-
-appData.getStatusIncome(budgetDay);
-
-appData.getExpensesMonth();
-/* И что в общей структуре кода начинаю теряться т.к. что-то переименовали, что то добавили, что-то удалили и теряю ход мыслей.
-Вроде почти всё сделал но, запутался.
-*/
