@@ -145,3 +145,39 @@ console.log("Наша программа включает в себя: ");
 for (let key in appData) {
   console.log(key, " : ", appData[key]);
 }
+
+// Верстка
+// Расчитать
+let calculate = document.getElementById("start");
+// Добавить категорию (плюсы)
+let firstAdd = document.getElementsByTagName("button")[0];
+let secondAdd = document.getElementsByTagName("button")[1];
+//Чекбокс
+let checkbox = document.querySelector("#deposit-check");
+//Поля для ввода возможных доходов
+let additionalIncomeItem = document.querySelectorAll(".additional_income-item");
+// Поля в правой части программы
+let budgetDayValue = document.getElementsByClassName("budget_day-value");
+let expensesMonthValue = document.getElementsByClassName(
+  "expenses_month-value"
+);
+let additionalIncomeValue = document.getElementsByClassName(
+  "additional_income-value"
+);
+let additionalExpensesValue = document.getElementsByClassName(
+  "additional_expenses-value"
+);
+let incomePeriodValue = document.getElementsByClassName("income_period-value");
+let targetMonthValue = document.getElementsByClassName("target_month-value");
+// Оставшиеся поля
+let salaryAmount = document.querySelector(".salary-amount");
+let incomeTitle = document.querySelector(".income-title");
+let incomeAmount = document.querySelector(".income-amount");
+let expensesTitle = document.querySelector(".expenses-title");
+let expensesAmount = document.querySelector(".expenses-amount");
+let budgetMonthValue = document.querySelector(".budget_month-value");
+let additionalExpensesItem = document.querySelector(
+  ".additional_expenses-item"
+);
+let targetAmount = document.querySelector(".target-amount");
+let periodSelect = document.querySelector(".period-select");
