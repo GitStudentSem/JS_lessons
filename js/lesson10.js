@@ -1,6 +1,5 @@
 let list = document.querySelector(".books");
 let books = document.querySelectorAll(".book");
-console.log("books: ", books);
 // Восстановил порядок книг
 list.append(books[1]); // 1
 list.append(books[0]); // 2
