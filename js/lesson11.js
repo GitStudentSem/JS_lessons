@@ -199,13 +199,17 @@ let appData = {
   если строка ввода пустая значение start.disabled = "true";
   запуск функции происходит в методе старт, но ничего не работает, почему пока не знаю
   */
+  // Сделал, но есть баг, если ввести данные, и нажать расчитать она сработает
+  // Но если ввести данные в другом поле и не изменить бюджет, кнопка расчета не разблокирется
+  // Скорее всего нужно указывать вызов фукции в каждом инпуте, либо писать циклом
+  // Пока что вообще не знаю как подступится
   checkFullness: function () {
-    start.disabled = "true";
+    start.disabled = true;
     salaryAmount.addEventListener("input", function () {
       if (salaryAmount.value !== "" && salaryAmount.value.length > 0) {
-        start.disabled = "false";
+        start.disabled = false;
       } else if (salaryAmount.value === "") {
-        start.disabled = "true";
+        start.disabled = true;
       }
     });
   },
