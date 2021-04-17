@@ -43,13 +43,7 @@ let additionalExpensesItem = document.querySelector(
 let targetAmount = document.querySelector(".target-amount");
 let periodSelect = document.querySelector(".period-select");
 let incomeItems = document.querySelectorAll(".income-items");
-
-// word сохранятет в себя число при изменении ползунка
-let word = document.querySelector(".period-amount");
-// При изменении ползунка значение this записывается в функцию и в виде числа передается в word
-periodSelect.oninput = function range() {
-  word.innerHTML = this.value;
-};
+let periodAmount = document.querySelector(".period-amount");
 let appData = {
   income: {},
   incomeMonth: 0,
@@ -66,8 +60,6 @@ let appData = {
 
   start: function () {
     appData.budget = +salaryAmount.value;
-    appData.checkFullness();
-
     appData.getExpenses();
     appData.getIncome();
     appData.getExpensesMonth();
@@ -77,6 +69,18 @@ let appData = {
 
     appData.showResult();
   },
+  lockStart: function () {
+    // блокирует кнопку сразу при загрузку странице (проверка на готовность внизу кода)
+    start.disabled = true;
+
+    // если строка пустая то блокировка остается
+    if (salaryAmount.value === "") {
+      start.disabled = true;
+      // если не пустая то снимается
+    } else {
+      start.disabled = false;
+    }
+  },
   showResult: function () {
     budgetMonthValue.value = appData.budgetMonth;
     budgetDayValue.value = appData.budgetDay;
@@ -85,6 +89,27 @@ let appData = {
     additionalIncomeValue.value = appData.addIncome.join(", ");
     targetMonthValue.value = Math.ceil(appData.getTargetMonth());
     incomePeriodValue.value = appData.calcPeriod();
+
+    periodAmount.innerHTML = appData.getRange();
+    // Зачем здесь слушатель событий? Он делает ровно то же самое что и нижний
+    // если здесь нужен какой-то другой то я даже представить не могу как его записать
+    // может быть нужна еще один метод (не понимаю)
+    // periodSelect.value = periodSelect.addEventListener(
+    //   "input",
+    //   appData.getRange
+    // );
+  },
+  getRange: function () {
+    /* нижний слушкатель событий запускает эту функцию и она генерирует числа
+    (значение range) это число потом используется в расчете, 
+    отрисовка числа происходит вshowResult. 
+    Если вставить в этот метод отрисовку periodAmount.innerHTML = appData.getRange();
+    метод начинает лагать и застревает на одном значении.
+    Либо нужно переписать все под корень, либо я вообще ничего не понимаю что и зачем здесь нужно и как это использовать
+    */
+
+    let rangeNumber = +periodSelect.value;
+    return rangeNumber;
   },
   addExpensesBlock: function () {
     // cloneNode(true) для того, что бы создать копию с дочерними элементами expensesItem
@@ -123,10 +148,6 @@ let appData = {
         appData.income[itemIncome] = +cashIncome;
       }
     });
-    /* Не понимаю зачем этот цикл 
-    С ним всё работает как нужно, но в getExpenses такого нет
-    либо я не могу найти куда записываюится значения для расходов
-    пока что оставлю, как есть*/
     for (let key in appData.income) {
       appData.incomeMonth += +appData.income[key];
     }
@@ -190,31 +211,18 @@ let appData = {
     }
   },
   calcPeriod: function () {
-    return appData.budgetMonth * periodSelect.value;
-  },
-  /*Пример решения из чата, но оно либо не рабочее ибо нужно переделать под себя
-  на первый взгляд всё работает правильно, изначльно у кнопки атрибут дизаблед
-  если там есть символ или длина value больше 0, то дизаблед отключается 
-  start.disabled = "false";
-  если строка ввода пустая значение start.disabled = "true";
-  запуск функции происходит в методе старт, но ничего не работает, почему пока не знаю
-  */
-  // Сделал, но есть баг, если ввести данные, и нажать расчитать она сработает
-  // Но если ввести данные в другом поле и не изменить бюджет, кнопка расчета не разблокирется
-  // Скорее всего нужно указывать вызов фукции в каждом инпуте, либо писать циклом
-  // Пока что вообще не знаю как подступится
-  checkFullness: function () {
-    start.disabled = true;
-    salaryAmount.addEventListener("input", function () {
-      if (salaryAmount.value !== "" && salaryAmount.value.length > 0) {
-        start.disabled = false;
-      } else if (salaryAmount.value === "") {
-        start.disabled = true;
-      }
-    });
+    return appData.budgetMonth * +periodSelect.value;
+    //Попытки реализовать онлайн рассчет из range (неудачные)
+    // return appData.budgetMonth * appData.getRange();
+    // return appData.budgetMonth * +periodSelect.value;
   },
 };
 start.addEventListener("click", appData.start);
+// запускает метод lockStart что бы сразу блокировать кнопку
+document.addEventListener("DOMContentLoaded", appData.lockStart);
+// проверяет значение input и в lockStart на условиях выводится результат
+salaryAmount.addEventListener("input", appData.lockStart);
+periodSelect.addEventListener("input", appData.getRange);
 expensesPlus.addEventListener("click", appData.addExpensesBlock);
 incomePlus.addEventListener("click", appData.addIncomeBlock);
 
