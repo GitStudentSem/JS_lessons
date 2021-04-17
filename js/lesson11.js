@@ -102,16 +102,16 @@ let appData = {
   },
   getRange: function () {
     /* нижний слушкатель событий запускает эту функцию и она генерирует числа
-    (значение range) это число потом используется в расчете, 
-    отрисовка числа происходит вshowResult. 
-    Если вставить в этот метод отрисовку periodAmount.innerHTML = appData.getRange();
-    метод начинает лагать и застревает на одном значении.
-    Либо нужно переписать все под корень, либо я вообще ничего не понимаю что и зачем здесь нужно и как это использовать
-    */
-
+    которые получает от слушателя. Так как инпут обновляется каждый раз при перетаскивании ползунка, 
+    то и значения будут обновляться онлайн.*/
     let rangeNumber = +periodSelect.value;
+    // запись числа под полоску
     periodAmount.innerHTML = rangeNumber;
-    incomePeriodValue.value = appData.budgetMonth * +periodSelect.value;
+    /* расчет значения, с использованием числа которое получаем напрямую из range, 
+    онлайн расчёта сразу не происходит т.к. 
+    appData.budgetMonth записывается только при нажатии start*/
+    incomePeriodValue.value = appData.budgetMonth * rangeNumber;
+    // без return возвращается undefined (не знаю почему точно, это происходит)
     return rangeNumber;
   },
   addExpensesBlock: function () {
@@ -217,9 +217,6 @@ let appData = {
   // пока что отключу этот метод
   // calcPeriod: function () {
   //   return appData.budgetMonth * +periodSelect.value;
-  //   //Попытки реализовать онлайн рассчет из range (неудачные)
-  //   // return appData.budgetMonth * appData.getRange();
-  //   // return appData.budgetMonth * +periodSelect.value;
   // },
 };
 start.addEventListener("click", appData.start);
