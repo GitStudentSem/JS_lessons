@@ -88,7 +88,8 @@ let appData = {
     additionalExpensesValue.value = appData.addExpenses.join(", ");
     additionalIncomeValue.value = appData.addIncome.join(", ");
     targetMonthValue.value = Math.ceil(appData.getTargetMonth());
-    incomePeriodValue.value = appData.calcPeriod();
+    // кальк период по идеее не нужен т.к. расчет происходит в getRange
+    // incomePeriodValue.value = appData.calcPeriod();
 
     periodAmount.innerHTML = appData.getRange();
     // Зачем здесь слушатель событий? Он делает ровно то же самое что и нижний
@@ -109,6 +110,8 @@ let appData = {
     */
 
     let rangeNumber = +periodSelect.value;
+    periodAmount.innerHTML = rangeNumber;
+    incomePeriodValue.value = appData.budgetMonth * +periodSelect.value;
     return rangeNumber;
   },
   addExpensesBlock: function () {
@@ -210,12 +213,14 @@ let appData = {
       appData.moneyDeposit = +money;
     }
   },
-  calcPeriod: function () {
-    return appData.budgetMonth * +periodSelect.value;
-    //Попытки реализовать онлайн рассчет из range (неудачные)
-    // return appData.budgetMonth * appData.getRange();
-    // return appData.budgetMonth * +periodSelect.value;
-  },
+  // РАсчет происходит в getRange
+  // пока что отключу этот метод
+  // calcPeriod: function () {
+  //   return appData.budgetMonth * +periodSelect.value;
+  //   //Попытки реализовать онлайн рассчет из range (неудачные)
+  //   // return appData.budgetMonth * appData.getRange();
+  //   // return appData.budgetMonth * +periodSelect.value;
+  // },
 };
 start.addEventListener("click", appData.start);
 // запускает метод lockStart что бы сразу блокировать кнопку
