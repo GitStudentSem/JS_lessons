@@ -44,6 +44,8 @@ let targetAmount = document.querySelector(".target-amount");
 let periodSelect = document.querySelector(".period-select");
 let incomeItems = document.querySelectorAll(".income-items");
 let periodAmount = document.querySelector(".period-amount");
+let cancel = document.getElementById("cancel");
+let checkBox = document.querySelector("#deposit-check");
 let appData = {
   income: {},
   incomeMonth: 0,
@@ -59,15 +61,24 @@ let appData = {
   expensesMonth: 0,
 
   start: function () {
-    appData.budget = +salaryAmount.value;
-    appData.getExpenses();
-    appData.getIncome();
-    appData.getExpensesMonth();
-    appData.getAddExpenses();
-    appData.getAddIncome();
-    appData.getBudget();
+    let allInput = document.querySelectorAll(".data input[type=text]");
+    allInput.forEach(function (item) {
+      item.setAttribute("disabled", true);
+    });
+    incomePlus.setAttribute("disabled", true);
+    expensesPlus.setAttribute("disabled", true);
+    start.style.display = "none";
+    cancel.style.display = "block";
 
-    appData.showResult();
+    this.budget = +salaryAmount.value;
+    this.getExpenses();
+    this.getIncome();
+    this.getExpensesMonth();
+    this.getAddExpenses();
+    this.getAddIncome();
+    this.getBudget();
+
+    this.showResult();
   },
   lockStart: function () {
     // блокирует кнопку сразу при загрузку странице (проверка на готовность внизу кода)
@@ -82,23 +93,14 @@ let appData = {
     }
   },
   showResult: function () {
-    budgetMonthValue.value = appData.budgetMonth;
-    budgetDayValue.value = appData.budgetDay;
-    expensesMonthValue.value = appData.expensesMonth;
-    additionalExpensesValue.value = appData.addExpenses.join(", ");
-    additionalIncomeValue.value = appData.addIncome.join(", ");
-    targetMonthValue.value = Math.ceil(appData.getTargetMonth());
-    // кальк период по идеее не нужен т.к. расчет происходит в getRange
-    // incomePeriodValue.value = appData.calcPeriod();
+    budgetMonthValue.value = this.budgetMonth;
+    budgetDayValue.value = this.budgetDay;
+    expensesMonthValue.value = this.expensesMonth;
+    additionalExpensesValue.value = this.addExpenses.join(", ");
+    additionalIncomeValue.value = this.addIncome.join(", ");
+    targetMonthValue.value = Math.ceil(this.getTargetMonth());
 
-    periodAmount.innerHTML = appData.getRange();
-    // Зачем здесь слушатель событий? Он делает ровно то же самое что и нижний
-    // если здесь нужен какой-то другой то я даже представить не могу как его записать
-    // может быть нужна еще один метод (не понимаю)
-    // periodSelect.value = periodSelect.addEventListener(
-    //   "input",
-    //   appData.getRange
-    // );
+    periodAmount.innerHTML = this.getRange();
   },
   getRange: function () {
     /* нижний слушкатель событий запускает эту функцию и она генерирует числа
@@ -213,13 +215,66 @@ let appData = {
       appData.moneyDeposit = +money;
     }
   },
-  // РАсчет происходит в getRange
-  // пока что отключу этот метод
-  // calcPeriod: function () {
-  //   return appData.budgetMonth * +periodSelect.value;
-  // },
+  // Эту часть подсмотрел у Макса
+  reset: function () {
+    // Запись в переменные всех полей-инпутов
+    let inputTextData = document.querySelectorAll(".data input[type=text]");
+    // запись в переменную всех полей результатов расчетов
+    let resetInputAll = document.querySelectorAll(".result input[type=text]");
+
+    //С помощью forEach перебираются поля
+    inputTextData.forEach(function (elem) {
+      elem.value = "";
+      elem.removeAttribute("disabled");
+      // значение 1 устанавливает счетчик ползунка на 1
+      periodSelect.value = "1";
+      //перезапись текстового поля под полоской
+      periodAmount.innerHTML = periodSelect.value;
+    });
+
+    //Очистка всех полей с данными
+    resetInputAll.forEach(function (elem) {
+      elem.value = "";
+    });
+
+    // В двух циклах удаляются добавленные поля input
+    // удаление через parentNode так жк как и добавлялись
+    // если было добавено максимально количество input то нуно вернуть поюсик
+    for (let i = 1; i < incomeItems.length; i++) {
+      incomeItems[i].parentNode.removeChild(incomeItems[i]);
+      incomePlus.style.display = "block";
+    }
+    for (let i = 1; i < expensesItems.length; i++) {
+      expensesItems[i].parentNode.removeChild(expensesItems[i]);
+      expensesPlus.style.display = "block";
+    }
+    // Возврат "базы данных" исходное состояние
+    this.income = {};
+    this.incomeMonth = 0;
+    this.addIncome = [];
+    this.expenses = {};
+    this.addExpenses = [];
+    this.deposit = false;
+    this.percentDeposit = 0;
+    this.moneyDeposit = 0;
+    this.budget = 0;
+    this.budgetDay = 0;
+    this.budgetMonth = 0;
+    this.expensesMonth = 0;
+
+    // при активации кнопки сбросить она отключается
+    cancel.style.display = "none";
+    // и вместо нее подключается кнопка старт
+    start.style.display = "block";
+    // включение кнопок которые были заблокированы
+    // плюсики для инпутов
+    incomePlus.removeAttribute("disabled");
+    expensesPlus.removeAttribute("disabled");
+    // чекбокс для депозита
+    checkBox.checked = false;
+  },
 };
-start.addEventListener("click", appData.start);
+start.addEventListener("click", appData.start.bind(appData));
 // запускает метод lockStart что бы сразу блокировать кнопку
 document.addEventListener("DOMContentLoaded", appData.lockStart);
 // проверяет значение input и в lockStart на условиях выводится результат
@@ -227,9 +282,4 @@ salaryAmount.addEventListener("input", appData.lockStart);
 periodSelect.addEventListener("input", appData.getRange);
 expensesPlus.addEventListener("click", appData.addExpensesBlock);
 incomePlus.addEventListener("click", appData.addIncomeBlock);
-
-//То что ниже убрал что бы не мешало
-// console.log("Наша программа включает в себя: ");
-// for (let key in appData) {
-//   console.log(key, " : ", appData[key]);
-// }
+cancel.addEventListener("click", appData.reset.bind(appData));
