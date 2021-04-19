@@ -1,11 +1,11 @@
 "use strict";
 //Класс
 function DomElement(selector, height, width, bg, fontSize) {
-  this.selector = selector;
-  this.height = height;
-  this.width = width;
-  this.bg = bg;
-  this.fontSize = fontSize;
+  // this.selector = selector;
+  // this.height = height;
+  // this.width = width;
+  // this.bg = bg;
+  // this.fontSize = fontSize;
 
   /* В selector ничего не записывается, но по идее в параметры приходит значение поля
    Скорее всего ошибка с this.selector = selector; не понимаю что присваивается
@@ -15,8 +15,10 @@ function DomElement(selector, height, width, bg, fontSize) {
    */
   this.create = function () {
     /* С selector[0] разобрался (не правильно логи выводил поэтому дамал, что строка)
-    Сюда приходит undefined. Вообще не понимаю где данные теряются, у нас три раза записан selector и какой из них содержит данные (и как до него добраться тогда) я не понимаю.
-    */
+    Сюда приходит undefined. Вообще не понимаю где данные теряются, 
+    у нас три раза записан selector и какой из них содержит данные 
+    (и как до него добраться тогда) я не понимаю.*/
+    console.log(selector);
     if (selector[0] === ".") {
       // Создание самого блока добавление класса и вывод на страницу
       let block = document.createElement("div");
@@ -73,7 +75,12 @@ function DomElement(selector, height, width, bg, fontSize) {
     }
   };
 }
-
+/* В файле mian реализована автоматическая очистка через объект
+в не чистятся ключи объекта, фукция рабочая, но как е поставить сюда пока не придумал
+здесь инпуты передаются через параметры и я не могу вставить эту функцию сюда
+Возможно нужно переписать получение данных из инпутов не через параметры функции
+а через переменные, тогда в этом случае я смогу поставить автоматичеескую функцию очистки полей
+но я еще не разобрался с данными где они теряются и как обработать обычным способом для начала */
 let newElement = new DomElement(
   document.getElementById("selector").value,
   document.getElementById("height").value,

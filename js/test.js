@@ -2,6 +2,9 @@
 // Основная работа программы без классов и прототипов просто на функциях
 function parametrs() {
   // получение полей и запись их значений в переменные
+  // Для оптимизации можно все это записать в объект и с помощью цикла
+  // очищать значения, но времени это реализовывать нет
+  // поэтому всё написано руками
   const inputs = {
     selector: document.getElementById("selector").value,
     height: document.getElementById("height").value,
@@ -48,6 +51,7 @@ function parametrs() {
       font-size: ${+inputs.fontSize}px;
       margin: 15px;
       display: inline-block;
+
   `;
       clear();
     } else {
