@@ -40,7 +40,7 @@ function DomElement(selector, height, width, bg, fontSize) {
       document.getElementById("height").value = "";
       document.getElementById("width").value = "";
       document.getElementById("bg").value = "";
-      document.getElementById("fontsize").value = "";
+      document.getElementById("fontSize").value = "";
     } else if (selector[0] === "#") {
       // Создание самого блока добавление класса и вывод на страницу
       let block = document.createElement("p");
@@ -63,14 +63,14 @@ function DomElement(selector, height, width, bg, fontSize) {
       document.getElementById("height").value = "";
       document.getElementById("width").value = "";
       document.getElementById("bg").value = "";
-      document.getElementById("fontsize").value = "";
+      document.getElementById("fontSize").value = "";
     } else {
       // Очистка полей при ошибке (неправильное имя селектора)
       document.getElementById("selector").value = "";
       document.getElementById("height").value = "";
       document.getElementById("width").value = "";
       document.getElementById("bg").value = "";
-      document.getElementById("fontsize").value = "";
+      document.getElementById("fontSize").value = "";
       alert("Введите правильный селектор! (например .section или #text)");
     }
   };
@@ -86,7 +86,7 @@ let newElement = new DomElement(
   document.getElementById("height").value,
   document.getElementById("width").value,
   document.getElementById("bg").value,
-  document.getElementById("fontsize").value
+  document.getElementById("fontSize").value
 );
 
 let button = document.getElementById("button");

@@ -7,6 +7,9 @@ function parametrs() {
     height: document.getElementById("height").value,
     width: document.getElementById("width").value,
     bg: document.getElementById("bg").value,
+    /* ВНИМАНИЕ КОСТЫЛЬ т.к. класс для значения передается из названия ключа, то
+    класс fontSize намеренно написан camelCase что бы его класс и значение совпали
+    в противном случае очистки поля размер шрифта не произойдет*/
     fontSize: document.getElementById("fontSize").value,
   };
   function clear() {
