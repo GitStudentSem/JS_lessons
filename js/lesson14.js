@@ -10,10 +10,14 @@ function DomElement(selector, height, width, bg, fontSize) {
   this.create = function () {
     // Сюда приходит строка, но почему-то
     //я не могу взять первую букву по индесу[0]
+    // вывел строку
     console.log(document.getElementById("selector").value);
+    // убедился что это строка
     console.log(typeof document.getElementById("selector").value);
+    // undefined?! где потерялись данные!!!
+    console.log(selector[0]);
     //Если первый символ селектора это "." то создаю блок
-    if (this.selector[0] === ".") {
+    if (selector[0] === ".") {
       // Создание самого блока добавление класса и вывод на страницу
       let block = document.createElement("div");
       document.body.appendChild(block);
@@ -35,7 +39,7 @@ function DomElement(selector, height, width, bg, fontSize) {
       document.getElementById("width").value = "";
       document.getElementById("bg").value = "";
       document.getElementById("fontsize").value = "";
-    } else if (this.selector[0] === "#") {
+    } else if (selector[0] === "#") {
       // Создание самого блока добавление класса и вывод на страницу
       let block = document.createElement("p");
       document.body.appendChild(block);
