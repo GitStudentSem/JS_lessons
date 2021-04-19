@@ -7,16 +7,16 @@ function DomElement(selector, height, width, bg, fontSize) {
   this.bg = bg;
   this.fontSize = fontSize;
 
+  /* В selector ничего не записывается, но по идее в параметры приходит значение поля
+   Скорее всего ошибка с this.selector = selector; не понимаю что присваивается
+   В уроке Макса оно так работало, здесь не работает не понимаю где данные в итоге оказываются.
+   Если я использую selector[0] какой это selector?
+   тот что аргумент из функции или тот что мы присваиваем через this.selector = selector
+   */
   this.create = function () {
-    // Сюда приходит строка, но почему-то
-    //я не могу взять первую букву по индесу[0]
-    // вывел строку
-    console.log(document.getElementById("selector").value);
-    // убедился что это строка
-    console.log(typeof document.getElementById("selector").value);
-    // undefined?! где потерялись данные!!!
-    console.log(selector[0]);
-    //Если первый символ селектора это "." то создаю блок
+    /* С selector[0] разобрался (не правильно логи выводил поэтому дамал, что строка)
+    Сюда приходит undefined. Вообще не понимаю где данные теряются, у нас три раза записан selector и какой из них содержит данные (и как до него добраться тогда) я не понимаю.
+    */
     if (selector[0] === ".") {
       // Создание самого блока добавление класса и вывод на страницу
       let block = document.createElement("div");
