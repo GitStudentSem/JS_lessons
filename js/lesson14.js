@@ -1,11 +1,11 @@
 "use strict";
 //Класс
 function DomElement(selector, height, width, bg, fontSize) {
-  // this.selector = selector;
-  // this.height = height;
-  // this.width = width;
-  // this.bg = bg;
-  // this.fontSize = fontSize;
+  this.selector = selector;
+  this.height = height;
+  this.width = width;
+  this.bg = bg;
+  this.fontSize = fontSize;
 
   /* В selector ничего не записывается, но по идее в параметры приходит значение поля
    Скорее всего ошибка с this.selector = selector; не понимаю что присваивается
