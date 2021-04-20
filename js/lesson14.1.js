@@ -287,6 +287,8 @@ AppData.prototype.reset = function () {
   expensesPlus.removeAttribute("disabled");
   // чекбокс для депозита
   checkBox.checked = false;
+  incomePlus.setAttribute("disabled", true);
+  start.disabled = true;
 };
 
 AppData.prototype.addEventListeners = function () {
