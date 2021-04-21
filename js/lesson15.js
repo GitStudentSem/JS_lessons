@@ -1,68 +1,74 @@
 "use strict";
 // Проверка на число
-let isNumber = function (number) {
+const isNumber = function (number) {
   return !isNaN(parseFloat(number)) && isFinite(number);
 };
 // проверка на строку, если это не цифра, значит это строка
-let isString = function (string) {
+const isString = function (string) {
   return !isNumber(string);
 };
 // Расчитать
-let start = document.getElementById("start");
+const start = document.getElementById("start");
 // Добавить категорию (плюсы)
-let incomePlus = document.getElementsByTagName("button")[0];
-let expensesPlus = document.getElementsByTagName("button")[1];
+const incomePlus = document.getElementsByTagName("button")[0];
+const expensesPlus = document.getElementsByTagName("button")[1];
 //Чекбокс
-let checkbox = document.querySelector("#deposit-check");
+const checkbox = document.querySelector("#deposit-check");
 //Поля для ввода возможных доходов
-let additionalIncomeItem = document.querySelectorAll(".additional_income-item");
+const additionalIncomeItem = document.querySelectorAll(
+  ".additional_income-item"
+);
 // Поля в правой части программы
-let budgetDayValue = document.getElementsByClassName("budget_day-value")[0];
-let expensesMonthValue = document.getElementsByClassName(
+const budgetDayValue = document.getElementsByClassName("budget_day-value")[0];
+const expensesMonthValue = document.getElementsByClassName(
   "expenses_month-value"
 )[0];
-let additionalIncomeValue = document.getElementsByClassName(
+const additionalIncomeValue = document.getElementsByClassName(
   "additional_income-value"
 )[0];
-let additionalExpensesValue = document.getElementsByClassName(
+const additionalExpensesValue = document.getElementsByClassName(
   "additional_expenses-value"
 )[0];
-let incomePeriodValue = document.getElementsByClassName(
+const incomePeriodValue = document.getElementsByClassName(
   "income_period-value"
 )[0];
-let targetMonthValue = document.getElementsByClassName("target_month-value")[0];
+const targetMonthValue = document.getElementsByClassName(
+  "target_month-value"
+)[0];
 // Оставшиеся поля
-let salaryAmount = document.querySelector(".salary-amount");
-let incomeTitle = document.querySelector(".income-title");
-let expensesTitle = document.querySelector(".expenses-title");
+const salaryAmount = document.querySelector(".salary-amount");
+const incomeTitle = document.querySelector(".income-title");
+const expensesTitle = document.querySelector(".expenses-title");
 let expensesItems = document.querySelectorAll(".expenses-items");
-let budgetMonthValue = document.querySelector(".budget_month-value");
-let additionalExpensesItem = document.querySelector(
+const budgetMonthValue = document.querySelector(".budget_month-value");
+const additionalExpensesItem = document.querySelector(
   ".additional_expenses-item"
 );
-let targetAmount = document.querySelector(".target-amount");
-let periodSelect = document.querySelector(".period-select");
+const targetAmount = document.querySelector(".target-amount");
+const periodSelect = document.querySelector(".period-select");
 let incomeItems = document.querySelectorAll(".income-items");
-let periodAmount = document.querySelector(".period-amount");
-let cancel = document.getElementById("cancel");
-let checkBox = document.querySelector("#deposit-check");
+const periodAmount = document.querySelector(".period-amount");
+const cancel = document.getElementById("cancel");
+const checkBox = document.querySelector("#deposit-check");
 
-const AppData = function () {
-  this.income = {};
-  this.incomeMonth = 0;
-  this.addIncome = [];
-  this.expenses = {};
-  this.addExpenses = [];
-  this.deposit = false;
-  this.percentDeposit = 0;
-  this.moneyDeposit = 0;
-  this.budget = 0;
-  this.budgetDay = 0;
-  this.budgetMonth = 0;
-  this.expensesMonth = 0;
-};
+class AppData {
+  constructor() {
+    this.income = {};
+    this.incomeMonth = 0;
+    this.addIncome = [];
+    this.expenses = {};
+    this.addExpenses = [];
+    this.deposit = false;
+    this.percentDeposit = 0;
+    this.moneyDeposit = 0;
+    this.budget = 0;
+    this.budgetDay = 0;
+    this.budgetMonth = 0;
+    this.expensesMonth = 0;
+  }
+}
 
-AppData.prototype.lockStart = function () {
+AppData.prototype.lockStart = () => {
   // блокирует кнопку сразу при загрузку странице (проверка на готовность внизу кода)
   start.disabled = true;
 
@@ -117,14 +123,13 @@ AppData.prototype.getRange = function () {
     онлайн расчёта сразу не происходит т.к. 
     appData.budgetMonth записывается только при нажатии start*/
 
-  ///!!!! МОЙ МЕТОД ПОСТАВИЛ THIS ЕСТЬ ВАРИАНТ ПОЛОМКИ!!!!!!!/////////////
   incomePeriodValue.value = this.budgetMonth * rangeNumber;
   // без return возвращается undefined (не знаю почему точно, это происходит)
   return rangeNumber;
 };
-AppData.prototype.addExpensesBlock = function () {
+AppData.prototype.addExpensesBlock = () => {
   // cloneNode(true) для того, что бы создать копию с дочерними элементами expensesItem
-  let cloneExpensesItem = expensesItems[0].cloneNode(true);
+  const cloneExpensesItem = expensesItems[0].cloneNode(true);
   expensesItems[0].parentNode.insertBefore(cloneExpensesItem, expensesPlus);
   expensesItems = document.querySelectorAll(".expenses-items");
   // Если элементов более трех, то кнопка добавления новых будет скрыта
@@ -132,8 +137,8 @@ AppData.prototype.addExpensesBlock = function () {
     expensesPlus.style.display = "none";
   }
 };
-AppData.prototype.addIncomeBlock = function () {
-  let cloneIncomeItem = incomeItems[0].cloneNode(true);
+AppData.prototype.addIncomeBlock = () => {
+  const cloneIncomeItem = incomeItems[0].cloneNode(true);
   incomeItems[0].parentNode.insertBefore(cloneIncomeItem, incomePlus);
   incomeItems = document.querySelectorAll(".income-items");
   // Если элементов более трех, то кнопка добавления новых будет скрыта
@@ -141,58 +146,71 @@ AppData.prototype.addIncomeBlock = function () {
     incomePlus.style.display = "none";
   }
 };
+// AppData.prototype.getExpenses = function () {
+//   const _this = this;
+//   expensesItems.forEach(function (item) {
+//     const itemExpenses = item.querySelector(".expenses-title").value;
+//     const cashExpenses = item.querySelector(".expenses-amount").value;
+//     if (itemExpenses !== "" && cashExpenses !== "") {
+//       // cashExpenses привожу к числу, что бы расчеты из инпута получить число, а не строку
+
+//       _this.expenses[itemExpenses] = +cashExpenses;
+//     }
+//   });
+// };
 AppData.prototype.getExpenses = function () {
-  const _this = this;
-  expensesItems.forEach(function (item) {
+  expensesItems.forEach((item) => {
     let itemExpenses = item.querySelector(".expenses-title").value;
     let cashExpenses = item.querySelector(".expenses-amount").value;
     if (itemExpenses !== "" && cashExpenses !== "") {
       // cashExpenses привожу к числу, что бы расчеты из инпута получить число, а не строку
-      ///!!!! МОЙ МЕТОД ПОСТАВИЛ THIS ЕСТЬ ВАРИАНТ ПОЛОМКИ!!!!!!!/////////////
-      _this.expenses[itemExpenses] = +cashExpenses;
+
+      this.expenses[itemExpenses] = +cashExpenses;
     }
   });
 };
-// AppData.prototype.getExpenses = function () {
-//   expensesItems.forEach((item) => {
-//     let itemExpenses = item.querySelector(".expenses-title").value;
-//     let cashExpenses = item.querySelector(".expenses-amount").value;
-//     if (itemExpenses !== "" && cashExpenses !== "") {
-//       // cashExpenses привожу к числу, что бы расчеты из инпута получить число, а не строку
-//       ///!!!! МОЙ МЕТОД ПОСТАВИЛ THIS ЕСТЬ ВАРИАНТ ПОЛОМКИ!!!!!!!/////////////
-//       this.expenses[itemExpenses] = +cashExpenses;
-//     }
-//   });
-// };
 AppData.prototype.getIncome = function () {
-  const _this = this;
-  incomeItems.forEach(function (item) {
-    let itemIncome = item.querySelector(".income-title").value;
-    let cashIncome = item.querySelector(".income-amount").value;
+  // const _this = this;
+  incomeItems.forEach((item) => {
+    const itemIncome = item.querySelector(".income-title").value;
+    const cashIncome = item.querySelector(".income-amount").value;
     if (itemIncome !== "" && cashIncome !== "") {
-      _this.income[itemIncome] = +cashIncome;
+      this.income[itemIncome] = +cashIncome;
     }
   });
   for (let key in this.income) {
     this.incomeMonth += +this.income[key];
   }
 };
+// AppData.prototype.getIncome = function () {
+//   const _this = this;
+//   incomeItems.forEach(function (item) {
+//     const itemIncome = item.querySelector(".income-title").value;
+//     const cashIncome = item.querySelector(".income-amount").value;
+//     if (itemIncome !== "" && cashIncome !== "") {
+//       _this.income[itemIncome] = +cashIncome;
+//     }
+//   });
+//   for (let key in this.income) {
+//     this.incomeMonth += +this.income[key];
+//   }
+// };
 AppData.prototype.getAddExpenses = function () {
-  const _this = this;
+  // const _this = this;
   let addExpenses = additionalExpensesItem.value.split(",");
-  addExpenses.forEach(function (item) {
+  addExpenses.forEach((item) => {
     item = item.trim();
     if (item !== "") {
-      _this.addExpenses.push(item);
+      this.addExpenses.push(item);
     }
   });
 };
 AppData.prototype.getAddIncome = function () {
-  const _this = this;
-  additionalIncomeItem.forEach(function (item) {
-    let itemValue = item.value.trim();
+  // const _this = this;
+  additionalIncomeItem.forEach((item) => {
+    const itemValue = item.value.trim();
     if (itemValue !== "") {
-      _this.addIncome.push(itemValue);
+      this.addIncome.push(itemValue);
     }
   });
 };
@@ -298,7 +316,6 @@ AppData.prototype.reset = function () {
   expensesPlus.removeAttribute("disabled");
   // чекбокс для депозита
   checkBox.checked = false;
-  incomePlus.setAttribute("disabled", true);
   start.disabled = true;
 };
 
