@@ -1,24 +1,18 @@
 "use strict";
-// Проверка на число
 const isNumber = function (number) {
   return !isNaN(parseFloat(number)) && isFinite(number);
 };
-// проверка на строку, если это не цифра, значит это строка
 const isString = function (string) {
   return !isNumber(string);
 };
-// Расчитать
 const start = document.getElementById("start");
-// Добавить категорию (плюсы)
 const incomePlus = document.getElementsByTagName("button")[0];
 const expensesPlus = document.getElementsByTagName("button")[1];
-//Чекбокс
 const checkbox = document.querySelector("#deposit-check");
 //Поля для ввода возможных доходов
 const additionalIncomeItem = document.querySelectorAll(
   ".additional_income-item"
 );
-// Поля в правой части программы
 const budgetDayValue = document.getElementsByClassName("budget_day-value")[0];
 const expensesMonthValue = document.getElementsByClassName(
   "expenses_month-value"
@@ -35,7 +29,6 @@ const incomePeriodValue = document.getElementsByClassName(
 const targetMonthValue = document.getElementsByClassName(
   "target_month-value"
 )[0];
-// Оставшиеся поля
 const salaryAmount = document.querySelector(".salary-amount");
 const incomeTitle = document.querySelector(".income-title");
 const expensesTitle = document.querySelector(".expenses-title");
@@ -96,7 +89,6 @@ class AppData {
     this.getAddExpenses();
     this.getAddIncome();
     this.getBudget();
-
     this.showResult();
   }
 
@@ -107,7 +99,6 @@ class AppData {
     additionalExpensesValue.value = this.addExpenses.join(", ");
     additionalIncomeValue.value = this.addIncome.join(", ");
     targetMonthValue.value = Math.ceil(this.getTargetMonth());
-
     periodAmount.innerHTML = this.getRange();
   }
 
@@ -153,15 +144,12 @@ class AppData {
       let itemExpenses = item.querySelector(".expenses-title").value;
       let cashExpenses = item.querySelector(".expenses-amount").value;
       if (itemExpenses !== "" && cashExpenses !== "") {
-        // cashExpenses привожу к числу, что бы расчеты из инпута получить число, а не строку
-
         this.expenses[itemExpenses] = +cashExpenses;
       }
     });
   }
 
   getIncome() {
-    // const _this = this;
     incomeItems.forEach((item) => {
       const itemIncome = item.querySelector(".income-title").value;
       const cashIncome = item.querySelector(".income-amount").value;
@@ -175,7 +163,6 @@ class AppData {
   }
 
   getAddExpenses() {
-    // const _this = this;
     let addExpenses = additionalExpensesItem.value.split(",");
     addExpenses.forEach((item) => {
       item = item.trim();
@@ -186,7 +173,6 @@ class AppData {
   }
 
   getAddIncome() {
-    // const _this = this;
     additionalIncomeItem.forEach((item) => {
       const itemValue = item.value.trim();
       if (itemValue !== "") {
@@ -202,30 +188,18 @@ class AppData {
   }
 
   getBudget() {
-    // !!!! Если сломается this поменять на appData
     this.budgetMonth = this.budget + this.incomeMonth - this.expensesMonth;
     this.budgetDay = Math.floor(this.budgetMonth / 30);
   }
 
   getTargetMonth() {
-    // !!!! Если сломается this поменять на appData
     return targetAmount.value / this.budgetMonth;
   }
 
-  getStatusIncome() {
-    // !!!! Если сломается this поменять на appData
-    if (this.budgetDay > 1200) {
-      console.log("У вас высокий уровень дохода");
-    } else if (1200 >= this.budgetDay >= 600) {
-      console.log("У вас средний уровень дохода");
-    } else if (600 > this.budgetDay > 0) {
-      console.log("К сожалению у вас уровень дохода ниже среднего");
-    }
-  }
-
+  // Не известный метод, работает с промптом, и записывает данные куда-то
+  // Скорее всего можно удалять
   getInfoDeposit() {
     if (this.deposit) {
-      // !!!! Если сломается this поменять на appData
       let deposit;
       // проверяет на число
       do {
@@ -314,5 +288,4 @@ class AppData {
 }
 
 const appData = new AppData();
-//addEventListeners вызвать после создания AppData
 appData.addEventListeners();
