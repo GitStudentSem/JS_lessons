@@ -42,7 +42,10 @@ const periodSelect = document.querySelector(".period-select");
 let incomeItems = document.querySelectorAll(".income-items");
 const periodAmount = document.querySelector(".period-amount");
 const cancel = document.getElementById("cancel");
-const checkBox = document.querySelector("#deposit-check");
+const depositCheck = document.querySelector("#deposit-check");
+const depositBank = document.querySelector(".deposit-bank");
+const depositAmount = document.querySelector(".deposit-amount");
+const depositPercent = document.querySelector(".deposit-percent");
 
 class AppData {
   constructor() {
@@ -88,6 +91,7 @@ class AppData {
     this.getExpensesMonth();
     this.getAddExpenses();
     this.getAddIncome();
+    this.getInfoDeposit();
     this.getBudget();
     this.showResult();
   }
@@ -188,7 +192,9 @@ class AppData {
   }
 
   getBudget() {
-    this.budgetMonth = this.budget + this.incomeMonth - this.expensesMonth;
+    const monthDeposit = this.moneyDeposit * (this.percentDeposit / 100);
+    this.budgetMonth =
+      this.budget + this.incomeMonth - this.expensesMonth + monthDeposit;
     this.budgetDay = Math.floor(this.budgetMonth / 30);
   }
 
@@ -196,22 +202,57 @@ class AppData {
     return targetAmount.value / this.budgetMonth;
   }
 
-  // Не известный метод, работает с промптом, и записывает данные куда-то
-  // Скорее всего можно удалять
   getInfoDeposit() {
     if (this.deposit) {
-      let deposit;
-      // проверяет на число
-      do {
-        deposit = prompt("Какой годовой процент?");
-      } while (!isNumber(deposit));
-      this.percentDeposit = +deposit;
-      let money;
-      // проверяет на число
-      do {
-        money = prompt("Какая сумма заложена?");
-      } while (!isNumber(money));
-      this.moneyDeposit = +money;
+      this.percentDeposit = depositPercent.value;
+      this.moneyDeposit = depositAmount.value;
+    }
+  }
+  changePercent() {
+    const valueSelect = this.value;
+    if (valueSelect === "other") {
+      depositPercent.style.display = "inline-block";
+      /* Если выбран другой банк, то будет вызвана функция расчета другого процента
+       Объявление функции происходит прямо здесь т.к. контекст вызова this
+      привязан к changePercent() внутри которой нет функции getOtherPercent 
+      поээтому выйдет ошибка*/
+      let getOtherPercent = function () {
+        /* Как только теряется фокус поля, сразу проходит проверка введенных данных 
+        кнопка будет заблокирована до тех пор пока не будет введено верное значение*/
+        depositPercent.addEventListener("blur", () => {
+          const otherPercent = depositPercent.value;
+          if (!isNumber(otherPercent)) {
+            depositPercent.value = "0";
+            start.disabled = true;
+            return alert("Введите число!");
+          } else if (0 > +otherPercent || +otherPercent > 100) {
+            depositPercent.value = "0";
+            start.disabled = true;
+            return alert("Введите число от 0 до 100!");
+          } else {
+            start.removeAttribute("disabled");
+            depositPercent.value = otherPercent;
+          }
+        });
+      };
+      getOtherPercent();
+    } else {
+      depositPercent.value = valueSelect;
+    }
+  }
+  depositHandler() {
+    if (depositCheck.checked) {
+      depositBank.style.display = "inline-block";
+      depositAmount.style.display = "inline-block";
+      this.deposit = true;
+      depositBank.addEventListener("change", this.changePercent);
+    } else {
+      depositBank.style.display = "none";
+      depositAmount.style.display = "none";
+      depositBank.value = "";
+      depositAmount.value = "";
+      this.deposit = false;
+      depositBank.removeEventListener("change", this.changePercent);
     }
   }
 
@@ -270,7 +311,7 @@ class AppData {
     incomePlus.removeAttribute("disabled");
     expensesPlus.removeAttribute("disabled");
     // чекбокс для депозита
-    checkBox.checked = false;
+    depositCheck.checked = false;
     start.disabled = true;
   }
 
@@ -284,6 +325,7 @@ class AppData {
     expensesPlus.addEventListener("click", this.addExpensesBlock);
     incomePlus.addEventListener("click", this.addIncomeBlock);
     cancel.addEventListener("click", this.reset.bind(this));
+    depositCheck.addEventListener("change", this.depositHandler.bind(this));
   }
 }
 
