@@ -28,24 +28,16 @@ window.addEventListener("DOMContentLoaded", function () {
       let timer = getTimeRemaining();
 
       // Вывод значений на странцу
-      function addZero() {
-        if (timer.hours < 10) {
-          timer.hours = "0" + timer.hours;
+      function formatTime(time) {
+        if (time < 10) {
+          return "0" + time;
+        } else {
+          return time;
         }
-
-        if (timer.minutes < 10) {
-          timer.minutes = "0" + timer.minutes;
-        }
-
-        if (timer.seconds < 10) {
-          timer.seconds = "0" + timer.seconds;
-        }
-
-        timerHours.textContent = timer.hours;
-        timerMinutes.textContent = timer.minutes;
-        timerSeconds.textContent = timer.seconds;
       }
-      addZero();
+      timerHours.textContent = formatTime(timer.hours);
+      timerMinutes.textContent = formatTime(timer.minutes);
+      timerSeconds.textContent = formatTime(timer.seconds);
 
       // Переменная объявлена вне условия, что бы она было видна в блоке else
       let interval;
