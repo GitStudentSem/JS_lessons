@@ -1,6 +1,6 @@
 /* Напишите функцию на JS. Цель: Убрать все объекты с типом additional, а для basic очки уменьшить в двое.
 
-Изменить необходимо исходный массив*/
+Cоздать новый массив, оставляя исходные данные неизменными */
 "use strict";
 const myLesson = [
   { lesson: 1, type: "basic", points: 2 },
@@ -23,17 +23,9 @@ const myLesson = [
 // newLesson Содержит отсортированные элементы
 const newLesson = myLesson.filter((elem) => elem.type === "basic");
 
-// count отображает число в массиве
-let count = myLesson.length;
-
-// удаляются все элементы с 0 по count, тем самым я полностью очищаю массив
-myLesson.splice(0, count);
-
-// Прохожусь по всем элементам массива newLesson,
-//добавляю их в myLesson и уменьшаю значаения points
 newLesson.forEach((elem) => {
-  myLesson.push(elem);
   elem.points /= 2;
 });
 
+console.log(newLesson);
 console.log(myLesson);
