@@ -6,6 +6,9 @@ window.addEventListener("DOMContentLoaded", function () {
     let timerHours = document.querySelector("#timer-hours");
     let timerMinutes = document.querySelector("#timer-minutes");
     let timerSeconds = document.querySelector("#timer-seconds");
+    // Двоеточия
+    let colonFirst = document.querySelectorAll(".timer-numbers > span")[1];
+    let colonSecond = document.querySelectorAll(".timer-numbers > span")[3];
 
     function getTimeRemaining() {
       // getTime переводит значения в милисекунды
@@ -16,32 +19,33 @@ window.addEventListener("DOMContentLoaded", function () {
       // Показывает секунды, остаток от деления, что бы не выйти за пределы 60 секунд
       let seconds = Math.floor(timeRemaining % 60);
       // Показывает минуты, остаток от деления, что бы не выйти за пределы 60 минут
-      let minetes = Math.floor((timeRemaining / 60) % 60);
+      let minutes = Math.floor((timeRemaining / 60) % 60);
       let hours = Math.floor(timeRemaining / 60 / 60);
-      return { timeRemaining, hours, minetes, seconds };
+      return { timeRemaining, hours, minutes, seconds };
     }
 
     function updateClock() {
       let timer = getTimeRemaining();
 
       // Вывод значений на странцу
-      if (timer.hours < 10) {
-        timerHours.textContent = "0" + timer.hours;
-      } else {
+      function addZero() {
+        if (timer.hours < 10) {
+          timer.hours = "0" + timer.hours;
+        }
+
+        if (timer.minutes < 10) {
+          timer.minutes = "0" + timer.minutes;
+        }
+
+        if (timer.seconds < 10) {
+          timer.seconds = "0" + timer.seconds;
+        }
+
         timerHours.textContent = timer.hours;
-      }
-
-      if (timer.minetes < 10) {
-        timerMinutes.textContent = "0" + timer.minetes;
-      } else {
-        timerMinutes.textContent = timer.minetes;
-      }
-
-      if (timer.seconds < 10) {
-        timerSeconds.textContent = "0" + timer.seconds;
-      } else {
+        timerMinutes.textContent = timer.minutes;
         timerSeconds.textContent = timer.seconds;
       }
+      addZero();
 
       // Переменная объявлена вне условия, что бы она было видна в блоке else
       let interval;
@@ -49,6 +53,14 @@ window.addEventListener("DOMContentLoaded", function () {
         interval = setInterval(updateClock, 1000);
       } else {
         clearInterval(interval);
+        //Кросный текст
+        timerHours.style.color = "red";
+        timerMinutes.style.color = "red";
+        timerSeconds.style.color = "red";
+        // Красные двоеточия
+        colonFirst.style.color = "red";
+        colonSecond.style.color = "red";
+        // Зануление счетчика
         timerHours.textContent = "00";
         timerMinutes.textContent = "00";
         timerSeconds.textContent = "00";
