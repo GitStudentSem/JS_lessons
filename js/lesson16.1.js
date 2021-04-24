@@ -107,8 +107,9 @@ class AppData {
   }
 
   getRange() {
-    /* нижний слушкатель событий запускает эту функцию и она генерирует числа
-    которые получает от слушателя. Так как инпут обновляется каждый раз при перетаскивании ползунка, 
+    /* нижний слушатель событий запускает эту функцию и она генерирует числа
+    которые получает от слушателя. 
+    Так как инпут обновляется каждый раз при перетаскивании ползунка, 
     то и значения будут обновляться онлайн.*/
     let rangeNumber = +periodSelect.value;
     // запись числа под полоску
@@ -117,7 +118,7 @@ class AppData {
     онлайн расчёта сразу не происходит т.к. 
     appData.budgetMonth записывается только при нажатии start*/
 
-    incomePeriodValue.value = this.budgetMonth * rangeNumber;
+    incomePeriodValue.value = this.budgetMonth * +rangeNumber;
     // без return возвращается undefined (не знаю почему точно, это происходит)
     return rangeNumber;
   }
@@ -321,7 +322,10 @@ class AppData {
     document.addEventListener("DOMContentLoaded", this.lockStart);
     // проверяет значение input и в lockStart на условиях выводится результат
     salaryAmount.addEventListener("input", this.lockStart);
-    periodSelect.addEventListener("input", this.getRange);
+    /* this.getRange.bind(this)); исправляет пробему с NaN алгоритм построен так,
+    что расчет происходит только по нажатию на кнопку рассчитать,
+    поэтому до этого значение будет равняться 0, что бы убрать NaN */
+    periodSelect.addEventListener("input", this.getRange.bind(this));
     expensesPlus.addEventListener("click", this.addExpensesBlock);
     incomePlus.addEventListener("click", this.addIncomeBlock);
     cancel.addEventListener("click", this.reset.bind(this));
