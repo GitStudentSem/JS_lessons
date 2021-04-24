@@ -43,6 +43,7 @@ window.addEventListener("DOMContentLoaded", function () {
       let interval;
       if (timer.timeRemaining > 0) {
         interval = setInterval(updateClock, 1000);
+        console.log("interval: ", interval);
       } else {
         clearInterval(interval);
         //Кросный текст
