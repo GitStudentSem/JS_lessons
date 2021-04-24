@@ -20,17 +20,20 @@ const myLesson = [
   { lesson: 15, type: "additional", points: 1 },
   { lesson: 16, type: "additional", points: 7 },
 ];
-let c = myLesson.map(function (params) {
-  for (var key in params) {
-    // console.log(`Ключ: ${key} значение: ${params[key]}`);
-    if (params[key] === "additional") {
-      delete params.lesson;
-      delete params.type;
-      delete params.points;
-    }
-    if (params[key] === "basic") {
-      params.points *= 2;
-    }
-  }
-  console.log("Оставшиеся", params);
+// newLesson Содержит отсортированные элементы
+const newLesson = myLesson.filter((elem) => elem.type === "basic");
+
+// count отображает число в массиве
+let count = myLesson.length;
+
+// удаляются все элементы с 0 по count, тем самым я полностью очищаю массив
+myLesson.splice(0, count);
+
+// Прохожусь по всем элементам массива newLesson,
+//добавляю их в myLesson и уменьшаю значаения points
+newLesson.forEach((elem) => {
+  myLesson.push(elem);
+  elem.points /= 2;
 });
+
+console.log(myLesson);
