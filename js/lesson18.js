@@ -98,6 +98,7 @@ window.addEventListener("DOMContentLoaded", function () {
     const popup = document.querySelector(".popup");
     const popupBtn = document.querySelectorAll(".popup-btn");
     const popUpClose = document.querySelector(".popup-close");
+
     // Анимация
     // Это моя анимация из прошлого урока переделанная под этот проект
     let count = 0;
@@ -114,7 +115,10 @@ window.addEventListener("DOMContentLoaded", function () {
     popupBtn.forEach((elem) => {
       elem.addEventListener("click", () => {
         popup.style.display = "block";
-        modalAnimate();
+        const screenWidth = window.screen.width;
+        if (screenWidth >= 768) {
+          modalAnimate();
+        }
       });
     });
 
