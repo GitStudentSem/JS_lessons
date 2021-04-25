@@ -97,7 +97,7 @@ window.addEventListener("DOMContentLoaded", function () {
   const togglePopUp = () => {
     const popup = document.querySelector(".popup");
     const popupBtn = document.querySelectorAll(".popup-btn");
-    const popUpClose = document.querySelector(".popup-close");
+    // const popUpClose = document.querySelector(".popup-close");
 
     // Анимация
     // Это моя анимация из прошлого урока переделанная под этот проект
@@ -112,6 +112,7 @@ window.addEventListener("DOMContentLoaded", function () {
       }
     };
 
+    // Открытие модального окна
     popupBtn.forEach((elem) => {
       elem.addEventListener("click", () => {
         popup.style.display = "block";
@@ -122,9 +123,27 @@ window.addEventListener("DOMContentLoaded", function () {
       });
     });
 
-    popUpClose.addEventListener("click", () => {
-      count = 0;
-      popup.style.display = "none";
+    // Закрытие по крестику
+    // popUpClose.addEventListener("click", () => {
+    //   count = 0;
+    //   popup.style.display = "none";
+    // });
+
+    // Закрытие по оверлэю
+    popup.addEventListener("click", (event) => {
+      let target = event.target;
+      // Закрытие по крестику
+      if (target.classList.contains("popup-close")) {
+        count = 0;
+        popup.style.display = "none";
+      } else {
+        target = target.closest(".popup-content");
+
+        if (!target) {
+          count = 0;
+          popup.style.display = "none";
+        }
+      }
     });
   };
   togglePopUp();
@@ -135,4 +154,37 @@ window.addEventListener("DOMContentLoaded", function () {
     slide.addEventListener("click", scroll(slide));
   };
   nextSlide();
+
+  // Табы
+  const tabs = () => {
+    const tabHeader = document.querySelector(".service-header");
+    const tab = tabHeader.querySelectorAll(".service-header-tab");
+    const tabContent = document.querySelectorAll(".service-tab");
+
+    const toggleTabContent = (index) => {
+      for (let i = 0; i < tabContent.length; i++) {
+        if (index === i) {
+          tab[i].classList.add("active");
+          tabContent[i].classList.remove("d-none");
+        } else {
+          tab[i].classList.remove("active");
+          tabContent[i].classList.add("d-none");
+        }
+      }
+    };
+
+    tabHeader.addEventListener("click", (event) => {
+      let target = event.target;
+      target = target.closest(".service-header-tab");
+
+      if (target) {
+        tab.forEach((item, i) => {
+          if (item === target) {
+            toggleTabContent(i);
+          }
+        });
+      }
+    });
+  };
+  tabs();
 });
