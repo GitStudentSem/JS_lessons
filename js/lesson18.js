@@ -77,5 +77,6 @@ window.addEventListener("DOMContentLoaded", function () {
       elem.addEventListener("click", handlerMenu);
     });
   };
+
   toggleMenu();
 });
