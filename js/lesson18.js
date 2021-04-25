@@ -58,12 +58,26 @@ window.addEventListener("DOMContentLoaded", function () {
   };
   countTimer("27 april 2021");
 
+  /* Этот метод макс показывал на интенсиве willberis, взял его сделал отдельной функцией
+  вызываю его по клику на элементы меню и "следующий слайд" */
+  // Скролл
+  const scroll = (scrollLink) => {
+    scrollLink.addEventListener("click", (event) => {
+      event.preventDefault();
+      const id = scrollLink.getAttribute("href");
+      document.querySelector(id).scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+  };
+
   // Меню
   const toggleMenu = () => {
     const btnMenu = document.querySelector(".menu");
     const menu = document.querySelector("menu");
     const closeBtn = document.querySelector(".close-btn");
-    const menuItems = menu.querySelectorAll("ul > li");
+    const menuItems = menu.querySelectorAll("ul > li > a");
 
     const handlerMenu = () => {
       menu.classList.toggle("active-menu");
@@ -74,26 +88,47 @@ window.addEventListener("DOMContentLoaded", function () {
 
     menuItems.forEach((elem) => {
       elem.addEventListener("click", handlerMenu);
+      elem.addEventListener("click", scroll(elem));
     });
   };
   toggleMenu();
 
   // Попап окно
-
   const togglePopUp = () => {
     const popup = document.querySelector(".popup");
     const popupBtn = document.querySelectorAll(".popup-btn");
     const popUpClose = document.querySelector(".popup-close");
+    // Анимация
+    // Это моя анимация из прошлого урока переделанная под этот проект
+    let count = 0;
+    let modalAnimate = () => {
+      let modalAnimateID = requestAnimationFrame(modalAnimate);
+      if (count <= 50) {
+        count++;
+        popup.style.opacity = `${(count * 2) / 100}`;
+      } else {
+        cancelAnimationFrame(modalAnimateID);
+      }
+    };
 
     popupBtn.forEach((elem) => {
       elem.addEventListener("click", () => {
         popup.style.display = "block";
+        modalAnimate();
       });
     });
 
     popUpClose.addEventListener("click", () => {
+      count = 0;
       popup.style.display = "none";
     });
   };
   togglePopUp();
+
+  // Перемещение на следующий слайд
+  const nextSlide = () => {
+    const slide = document.querySelector("main > a");
+    slide.addEventListener("click", scroll(slide));
+  };
+  nextSlide();
 });
