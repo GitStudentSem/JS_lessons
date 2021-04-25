@@ -70,13 +70,30 @@ window.addEventListener("DOMContentLoaded", function () {
     };
 
     btnMenu.addEventListener("click", handlerMenu);
-
     closeBtn.addEventListener("click", handlerMenu);
 
     menuItems.forEach((elem) => {
       elem.addEventListener("click", handlerMenu);
     });
   };
-
   toggleMenu();
+
+  // Попап окно
+
+  const togglePopUp = () => {
+    const popup = document.querySelector(".popup");
+    const popupBtn = document.querySelectorAll(".popup-btn");
+    const popUpClose = document.querySelector(".popup-close");
+
+    popupBtn.forEach((elem) => {
+      elem.addEventListener("click", () => {
+        popup.style.display = "block";
+      });
+    });
+
+    popUpClose.addEventListener("click", () => {
+      popup.style.display = "none";
+    });
+  };
+  togglePopUp();
 });
