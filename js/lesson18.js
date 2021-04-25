@@ -7,8 +7,7 @@ window.addEventListener("DOMContentLoaded", function () {
     let timerMinutes = document.querySelector("#timer-minutes");
     let timerSeconds = document.querySelector("#timer-seconds");
     // Двоеточия
-    let colonFirst = document.querySelectorAll(".timer-numbers > span")[1];
-    let colonSecond = document.querySelectorAll(".timer-numbers > span")[3];
+    let timerNumbers = document.querySelector(".timer-numbers");
 
     const getTimeRemaining = () => {
       // getTime переводит значения в милисекунды
@@ -52,13 +51,8 @@ window.addEventListener("DOMContentLoaded", function () {
 
       if (timer.timeRemaining < 0) {
         clearInterval(interval);
-        //Кросный текст
-        timerHours.style.color = "red";
-        timerMinutes.style.color = "red";
-        timerSeconds.style.color = "red";
-        // Красные двоеточия
-        colonFirst.style.color = "red";
-        colonSecond.style.color = "red";
+        //Красный текст
+        timerNumbers.style.color = "red";
         // Зануление счетчика
         timerHours.textContent = "00";
         timerMinutes.textContent = "00";
