@@ -10,15 +10,11 @@ let flyAnimate = function () {
   count++;
   if (count <= 255) {
     block.style.backgroundColor = `rgb(${count / 100}, ${count}, ${count})`;
-    block.style.transform = `scale(${1 + count / 100}) rotate(${
-      count / 10
-    }deg)`;
+    block.style.transform = `scale(${1 + count / 100}) rotate(${count / 2}deg)`;
     block.style.width = `${count / 5}px`;
     block.style.height = `${count / 5}px`;
   } else if (count <= 450) {
-    block.style.transform = `scale(${1 + count / 100}) rotate(${
-      count / 10
-    }deg)`;
+    block.style.transform = `scale(${1 + count / 100}) rotate(${count / 2}deg)`;
     block.style.width = `${count / 5}px`;
     block.style.height = `${count / 5}px`;
   } else {
