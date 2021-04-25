@@ -8,15 +8,13 @@ let flyInterval;
 let flyAnimate = function () {
   flyInterval = requestAnimationFrame(flyAnimate);
   count++;
-  if (count <= 255) {
+  //  Значения цветов будут больше чем 255/255/255, но это не ломает скрипт
+  // Поэтому я убрал лишний блок if что бы упростить код
+  if (count <= 450) {
     block.style.backgroundColor = `rgb(${count / 100}, ${count}, ${count})`;
-    block.style.transform = `scale(${1 + count / 100}) rotate(${count / 2}deg)`;
-    block.style.width = `${count / 5}px`;
-    block.style.height = `${count / 5}px`;
-  } else if (count <= 450) {
-    block.style.transform = `scale(${1 + count / 100}) rotate(${count / 2}deg)`;
-    block.style.width = `${count / 5}px`;
-    block.style.height = `${count / 5}px`;
+    block.style.transform = `rotate(${count / 2}deg)`;
+    block.style.width = `${count * 1.1}px`;
+    block.style.height = `${count * 1.1}px`;
   } else {
     cancelAnimationFrame(flyInterval);
   }
@@ -37,7 +35,7 @@ reset.addEventListener("click", function () {
     cancelAnimationFrame(flyInterval);
     animate = true;
     block.style.backgroundColor = `rgb(${count}, ${count}, ${count})`;
-    block.style.transform = `scale(${count}) rotate(${count}deg)`;
+    block.style.transform = `rotate(${count}deg)`;
     block.style.width = `${count}px`;
     block.style.height = `${count}px`;
   } else {
@@ -45,7 +43,7 @@ reset.addEventListener("click", function () {
     cancelAnimationFrame(flyInterval);
     animate = true;
     block.style.backgroundColor = `rgb(${count}, ${count}, ${count})`;
-    block.style.transform = `scale(${count}) rotate(${count}deg)`;
+    block.style.transform = `rotate(${count}deg)`;
     block.style.width = `${count}px`;
     block.style.height = `${count}px`;
   }
