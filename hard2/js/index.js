@@ -31,7 +31,8 @@ let func2 = function () {
 
   setTimeout(function () {
     // console.log("2");
-    print6();
+    // print6();
+    print7();
   }, 1000);
 };
 
@@ -52,7 +53,8 @@ setTimeout(function () {
 
   setTimeout(function () {
     // console.log("6");
-    print7();
+    // print7();
+    print6();
   }, 750);
 }, 500);
 

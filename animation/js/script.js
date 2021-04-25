@@ -23,7 +23,7 @@ let flyAnimate = function () {
     cancelAnimationFrame(flyInterval);
   }
 };
-let animate = false;
+let animate = true;
 pause.addEventListener("click", function () {
   if (animate) {
     flyInterval = requestAnimationFrame(flyAnimate);
@@ -34,7 +34,7 @@ pause.addEventListener("click", function () {
   }
 });
 reset.addEventListener("click", function () {
-  if (!animate) {
+  if (animate) {
     count = 0;
     cancelAnimationFrame(flyInterval);
     animate = true;
