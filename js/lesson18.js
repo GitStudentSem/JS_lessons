@@ -33,16 +33,8 @@ window.addEventListener("DOMContentLoaded", function () {
     };
 
     // Время для первой секунды, одноразовая отрисока значений
+    let interval;
     const firstSecond = () => {
-      let timer = getTimeRemaining();
-      // Вывод значений на странцу;
-      timerHours.textContent = formatTime(timer.hours);
-      timerMinutes.textContent = formatTime(timer.minutes);
-      timerSeconds.textContent = formatTime(timer.seconds);
-    };
-    firstSecond();
-
-    let interval = setInterval(() => {
       let timer = getTimeRemaining();
       // Вывод значений на странцу
       timerHours.textContent = formatTime(timer.hours);
@@ -58,7 +50,11 @@ window.addEventListener("DOMContentLoaded", function () {
         timerMinutes.textContent = "00";
         timerSeconds.textContent = "00";
       }
-    }, 1000);
+    };
+    // Единый вызов, в первую секунду
+    firstSecond();
+
+    interval = setInterval(firstSecond, 1000);
   };
   countTimer("27 april 2021");
 
