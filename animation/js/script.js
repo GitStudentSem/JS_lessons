@@ -38,11 +38,17 @@ reset.addEventListener("click", function () {
     count = 0;
     cancelAnimationFrame(flyInterval);
     animate = true;
-    block.style.backgroundColor = `rgb(${count / 100}, ${count}, ${count})`;
-    block.style.transform = `scale(${1 + count / 100}) rotate(${
-      count / 10
-    }deg)`;
-    block.style.width = `${count / 5}px`;
-    block.style.height = `${count / 5}px`;
+    block.style.backgroundColor = `rgb(${count}, ${count}, ${count})`;
+    block.style.transform = `scale(${count}) rotate(${count}deg)`;
+    block.style.width = `${count}px`;
+    block.style.height = `${count}px`;
+  } else {
+    count = 0;
+    cancelAnimationFrame(flyInterval);
+    animate = true;
+    block.style.backgroundColor = `rgb(${count}, ${count}, ${count})`;
+    block.style.transform = `scale(${count}) rotate(${count}deg)`;
+    block.style.width = `${count}px`;
+    block.style.height = `${count}px`;
   }
 });
