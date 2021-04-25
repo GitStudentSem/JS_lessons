@@ -19,6 +19,8 @@ let flyAnimate = function () {
     block.style.transform = `scale(${1 + count / 100}) rotate(${
       count / 10
     }deg)`;
+    block.style.width = `${count / 5}px`;
+    block.style.height = `${count / 5}px`;
   } else {
     cancelAnimationFrame(flyInterval);
   }
