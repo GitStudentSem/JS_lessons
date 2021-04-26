@@ -78,22 +78,26 @@ window.addEventListener("DOMContentLoaded", function () {
     const menuItems = menu.querySelectorAll("ul > li > a");
     const body = document.querySelector("body");
 
+    const actionMenu = () => {
+      menu.classList.toggle("active-menu");
+    };
+
     body.addEventListener("click", (event) => {
       let target = event.target;
       // Открыть меню
       if (target.closest(".menu")) {
-        menu.classList.add("active-menu");
+        actionMenu();
         // Нажатие на крестик
       } else if (target.closest(".close-btn")) {
-        menu.classList.remove("active-menu");
+        actionMenu();
         // Нажатие вне меню
       } else if (!target.closest(".active-menu")) {
-        menu.classList.remove("active-menu");
+        actionMenu();
         // Нажатие на пункт меню
-      } else {
+      } else if (target.matches("menu a")) {
+        actionMenu();
         menuItems.forEach((elem) => {
-          elem.addEventListener("click", scroll(elem));
-          menu.classList.remove("active-menu");
+          scroll(elem);
         });
       }
     });
