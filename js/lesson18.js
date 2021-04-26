@@ -80,20 +80,21 @@ window.addEventListener("DOMContentLoaded", function () {
 
     body.addEventListener("click", (event) => {
       let target = event.target;
-      target = target.closest(".menu");
-      if (target) {
+      // Открыть меню
+      if (target.closest(".menu")) {
         menu.classList.add("active-menu");
+        // Нажатие на крестик
+      } else if (target.closest(".close-btn")) {
+        menu.classList.remove("active-menu");
+        // Нажатие вне меню
+      } else if (!target.closest(".active-menu")) {
+        menu.classList.remove("active-menu");
+        // Нажатие на пункт меню
       } else {
-        let target = event.target;
-        target = target.closest(".close-btn");
-        if (target) {
+        menuItems.forEach((elem) => {
+          elem.addEventListener("click", scroll(elem));
           menu.classList.remove("active-menu");
-        } else {
-          menu.classList.remove("active-menu");
-          menuItems.forEach((elem) => {
-            elem.addEventListener("click", scroll(elem));
-          });
-        }
+        });
       }
     });
   };
