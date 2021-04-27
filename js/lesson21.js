@@ -199,12 +199,30 @@ window.addEventListener("DOMContentLoaded", function () {
   const slider = () => {
     const slider = document.querySelector(".portfolio-content");
     const slide = document.querySelectorAll(".portfolio-item");
-    const btn = document.querySelectorAll(".portfolio-btn");
+    const dots = document.querySelector(".portfolio-dots");
+    const slidesImg = document.querySelectorAll(
+      ".portfolio > .container > ul > .portfolio-item"
+    );
+    // Генерация точек
+    const createDot = () => {
+      // Цикл на количество слайдов
+      slidesImg.forEach(() => {
+        let dotCreate = document.createElement("li");
+        dotCreate.className = "dot";
+        dots.appendChild(dotCreate);
+      });
+      // let dot в этой области видимости локальна, определяю её что бы первой точке
+      // Задать активный слот далее по коду, эта переменная глобальна
+      // для функции slider() и от нее происходят расчеты
+      let dot = document.querySelectorAll(".dot");
+      dot[0].classList.add("dot-active");
+    };
+    createDot();
+    // Поиск точек перенес после их генерации
     const dot = document.querySelectorAll(".dot");
 
     let currentSlide = 0;
     let interval;
-
     const prevSlide = (elem, index, strClass) => {
       elem[index].classList.remove(strClass);
     };
@@ -277,7 +295,7 @@ window.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-    startSlide(1500);
+    startSlide(15000);
   };
   slider(0);
 });
