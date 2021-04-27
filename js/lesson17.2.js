@@ -22,54 +22,47 @@ country.addEventListener("input", function () {
   if (country.value === "rus") {
     cityes = cityArr[country.value];
 
-    city.innerHTML += `
-    <select>`;
+    city.innerHTML += `<select>`;
 
     cityes.forEach((cityRus) => {
       city.innerHTML += `
       <option value="rus">${cityRus}</option>`;
     });
 
-    city.innerHTML += `
-    </select>`;
+    city.innerHTML += `</select>`;
   } else if (country.value === "uk") {
     cityes = cityArr[country.value];
 
-    city.innerHTML += `
-    <select>`;
+    city.innerHTML += `<select>`;
 
     cityes.forEach((cityUk) => {
       city.innerHTML += `
       <option value="rus">${cityUk}</option>`;
     });
 
-    city.innerHTML += `
-    </select>`;
+    city.innerHTML += `</select>`;
   } else if (country.value === "bel") {
     cityes = cityArr[country.value];
 
-    city.innerHTML += `
-    <select>`;
+    city.innerHTML += `<select>`;
 
     cityes.forEach((cityBel) => {
       city.innerHTML += `
       <option value="rus">${cityBel}</option>`;
     });
 
-    city.innerHTML += `
-    </select>`;
+    city.innerHTML += `</select>`;
   } else if (country.value === "jap") {
     cityes = cityArr[country.value];
 
-    city.innerHTML += `
-    <select>`;
+    city.innerHTML += `<select>`;
+
     cityes.forEach((cityJap) => {
       city.innerHTML += `
       <option value="rus">${cityJap}</option>`;
     });
 
-    city.innerHTML += `
-    </select>`;
+    city.innerHTML += `</select>`;
   }
 });
 
