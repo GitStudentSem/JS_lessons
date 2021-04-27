@@ -71,7 +71,6 @@ window.addEventListener("DOMContentLoaded", function () {
       });
     });
   };
-
   // Меню
   const toggleMenu = () => {
     const menu = document.querySelector("menu");
@@ -87,6 +86,15 @@ window.addEventListener("DOMContentLoaded", function () {
 
     body.addEventListener("click", (event) => {
       let target = event.target;
+
+      // Блокировка слушателя на всем body
+      if (
+        !target.closest(".menu, .close-btn, .active-menu") &&
+        !target.matches("menu a")
+      ) {
+        return;
+      }
+
       // Открыть меню
       if (target.closest(".menu")) {
         openMenu();
