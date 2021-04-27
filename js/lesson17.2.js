@@ -23,6 +23,15 @@ let country = document.querySelector("#country");
 let city = document.querySelector("#city");
 let result = document.querySelector(".result");
 
+const start = (cityes = cityArr.rus) => {
+  cityes = cityArr[country.value];
+  let countrys = coutryArr[country.value];
+
+  remove();
+  add(cityes);
+  inner(countrys);
+};
+
 const remove = () => {
   // Удаление
   while (city.firstChild) {
@@ -47,14 +56,6 @@ const inner = (countrys) => {
   });
 };
 
-const start = (cityes = cityArr.rus) => {
-  cityes = cityArr[country.value];
-  let countrys = coutryArr[country.value];
-
-  remove();
-  add(cityes);
-  inner(countrys);
-};
 start();
 
 country.addEventListener("input", start);
