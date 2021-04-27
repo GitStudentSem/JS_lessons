@@ -13,17 +13,35 @@ const cityArr = {
   bel: ["Минск", "Гомель", "Могилёв", "Витебск", "Гродно", "Брест"],
   jap: ["Токио", "Киото", "Осака", "Иокогама"],
 };
-
+const coutryArr = {
+  rus: "Россия",
+  uk: "Украина",
+  bel: "Беларусь",
+  jap: "Япония",
+};
 let country = document.querySelector("#country");
 let city = document.querySelector("#city");
 let result = document.querySelector(".result");
+
 country.addEventListener("input", function () {
   let cityes = cityArr[country.value];
-  city.innerHTML += `<select>`;
+  let countrys = coutryArr[country.value];
 
+  // Удаление
+  while (city.firstChild) {
+    city.removeChild(city.firstChild);
+  }
+
+  // Добавление
   cityes.forEach((elem) => {
-    city.innerHTML += `
-    <option value="${cityArr[country.value]}">${elem}</option>`;
+    let option = document.createElement("option");
+    option.setAttribute("value", elem);
+    option.textContent = elem;
+    city.prepend(option);
   });
-  city.innerHTML += `</select>`;
+
+  //Вывод на страницу
+  city.addEventListener("input", () => {
+    result.innerHTML = `${countrys}, ${city.value}`;
+  });
 });
