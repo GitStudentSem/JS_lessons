@@ -37,7 +37,7 @@ country.addEventListener("input", function () {
 
     cityes.forEach((cityUk) => {
       city.innerHTML += `
-      <option value="rus">${cityUk}</option>`;
+      <option value="uk">${cityUk}</option>`;
     });
 
     city.innerHTML += `</select>`;
@@ -48,7 +48,7 @@ country.addEventListener("input", function () {
 
     cityes.forEach((cityBel) => {
       city.innerHTML += `
-      <option value="rus">${cityBel}</option>`;
+      <option value="bel">${cityBel}</option>`;
     });
 
     city.innerHTML += `</select>`;
@@ -59,7 +59,7 @@ country.addEventListener("input", function () {
 
     cityes.forEach((cityJap) => {
       city.innerHTML += `
-      <option value="rus">${cityJap}</option>`;
+      <option value="jap">${cityJap}</option>`;
     });
 
     city.innerHTML += `</select>`;
