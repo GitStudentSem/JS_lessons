@@ -89,8 +89,9 @@ window.addEventListener("DOMContentLoaded", function () {
 
       // Блокировка слушателя на всем body
       if (
-        !target.closest(".menu, .close-btn, .active-menu") &&
-        !target.matches("menu a")
+        !target.closest(".menu, .close-btn") &&
+        !target.matches("menu a") &&
+        target.closest(".active-menu")
       ) {
         return;
       }
@@ -306,4 +307,97 @@ window.addEventListener("DOMContentLoaded", function () {
     startSlide(15000);
   };
   slider(0);
+
+  // Подмена фото при наведении
+  const photoHover = () => {
+    const photos = document.querySelectorAll(".command__photo");
+    // Переменная для хранения src картинки
+    let srcReg;
+
+    photos.forEach((photo) => {
+      photo.addEventListener("mouseenter", (event) => {
+        srcReg = event.target.src;
+        event.target.src = event.target.dataset.img;
+
+        /* Обрезка от лишних символов в пути к картинке
+        Искать вождение с /images, любое количество символов {0,}
+        До jpg флаг g ищет всю строку, а не только первое вхождение*/
+        let result = srcReg.match(/\/images.{0,}jpg/g);
+        /* заменяю полное вхождение на обрезанное и присваиваю в ту же переменную, тем самы перезаписав её*/
+        srcReg = srcReg.replace(srcReg, result);
+      });
+
+      photo.addEventListener("mouseleave", (event) => {
+        event.target.src = srcReg;
+      });
+    });
+  };
+  photoHover();
+
+  // Валидация калькулятора
+  const calculatorForm = () => {
+    let inputs = document.querySelectorAll(".calc-block > input");
+    inputs.forEach((input) => {
+      input.addEventListener("blur", () => {
+        // [^0-9] Обрезает все символы кроме цифр
+        // ^ это отрицание т.е. будет обрезано всё что не цифра
+        input.value = input.value.replace(/[^0-9]/g, "");
+      });
+    });
+  };
+  calculatorForm();
+
+  //Валидация формы в подвале
+  const footerForm = () => {
+    const name = document.getElementById("form2-name");
+    const email = document.getElementById("form2-email");
+    const phone = document.getElementById("form2-phone");
+    const message = document.getElementById("form2-message");
+
+    name.addEventListener("blur", () => {
+      // [^а-яё\-\s] Обрезает все символы кроме русских букв тире и пробел
+      name.value = name.value.replace(/[^а-яё\-\s]/gi, "");
+      // Заменяет 2 и более тире на один
+      name.value = name.value.replace(/-{1,}/g, "-");
+      // Заменяет 2 и более пробела на один
+      name.value = name.value.replace(/\s{1,}/gi, " ");
+      // Удаляет пробелы и тире в начале и конце строки
+      name.value = name.value.replace(/^\s|\s$|^-|-$/g, "");
+      // первая буква большая, остальные маленькие
+      // Массив для хранения отдельных слов
+      let nameFirstBig = [];
+      //Заменяю первй символ на результат коллбэк функции
+      name.value = name.value.replace(/^./g, () => {
+        // Бью строку по пробелу и создаю массив из слов
+        let word = name.value.split(" ");
+        word.forEach((item) => {
+          // Каждый элемент массива привожу к большой букве
+          item = item[0].toUpperCase() + item.slice(1);
+          // отправляю элементы в пустой массив на хранение
+          nameFirstBig.push(item);
+        });
+      });
+      // Делаю из массива строку и отправляю её в значение поля инпут
+      name.value = nameFirstBig.join(" ");
+    });
+
+    email.addEventListener("blur", () => {
+      // [^a-z@-_.!~*'] Обрезает все символы кроме указанных
+      email.value = email.value.replace(/[^[a-z]@-_.!~*']/gi, "");
+      // Обрезает 2 и более тире
+      email.value = email.value.replace(/-{1,}/g, "-");
+      // Удаляет тире в начале и конце строки
+      email.value = email.value.replace(/^-|-$/g, "");
+    });
+
+    phone.addEventListener("blur", () => {
+      // [^0-9] Обрезает все символы кроме цифр
+      phone.value = phone.value.replace(/[^0-9()-]/g, "");
+      // Обрезает 2 и более тире
+      phone.value = phone.value.replace(/-{1,}/g, "-");
+      // Удаляет тире в начале и конце строки
+      phone.value = phone.value.replace(/^-|-$/g, "");
+    });
+  };
+  footerForm();
 });
