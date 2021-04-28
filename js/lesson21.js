@@ -366,17 +366,15 @@ window.addEventListener("DOMContentLoaded", function () {
       // первая буква большая, остальные маленькие
       // Массив для хранения отдельных слов
       let nameFirstBig = [];
-      //Заменяю первй символ на результат коллбэк функции
-      name.value = name.value.replace(/^./g, () => {
-        // Бью строку по пробелу и создаю массив из слов
-        let word = name.value.split(" ");
-        word.forEach((item) => {
-          // Каждый элемент массива привожу к большой букве
-          item = item[0].toUpperCase() + item.slice(1);
-          // отправляю элементы в пустой массив на хранение
-          nameFirstBig.push(item);
-        });
+      // Бью строку по пробелу и создаю массив из слов
+      let word = name.value.split(" ");
+      word.forEach((item) => {
+        // Каждый элемент массива привожу к большой букве
+        item = item[0].toUpperCase() + item.slice(1);
+        // отправляю элементы в пустой массив на хранение
+        nameFirstBig.push(item);
       });
+
       // Делаю из массива строку и отправляю её в значение поля инпут
       name.value = nameFirstBig.join(" ");
     });
