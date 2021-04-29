@@ -305,7 +305,7 @@ window.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-    startSlide(15000);
+    startSlide(1500);
   };
   slider(0);
 
