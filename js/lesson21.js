@@ -56,21 +56,20 @@ window.addEventListener("DOMContentLoaded", function () {
 
     interval = setInterval(firstSecond, 1000);
   };
-  countTimer("30 may 2021");
+  countTimer("1 may 2021");
 
   /* Этот метод макс показывал на интенсиве willberis, взял его сделал отдельной функцией
   вызываю его по клику на элементы меню и "следующий слайд" */
   // Скролл
   const scroll = (scrollLink) => {
-    scrollLink.addEventListener("click", (event) => {
-      event.preventDefault();
-      const id = scrollLink.getAttribute("href");
-      document.querySelector(id).scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
+    // scrollLink.preventDefault();
+    const id = scrollLink.getAttribute("href");
+    document.querySelector(id).scrollIntoView({
+      behavior: "smooth",
+      block: "start",
     });
   };
+
   // Меню
   const toggleMenu = () => {
     const menu = document.querySelector("menu");
@@ -107,10 +106,9 @@ window.addEventListener("DOMContentLoaded", function () {
         closeMenu();
         // Нажатие на пункт меню
       } else if (target.matches("menu a")) {
+        event.preventDefault();
         closeMenu();
-        menuItems.forEach((elem) => {
-          scroll(elem);
-        });
+        scroll(target);
       }
     });
   };
@@ -167,7 +165,10 @@ window.addEventListener("DOMContentLoaded", function () {
   // Перемещение на следующий слайд
   const nextSlide = () => {
     const slide = document.querySelector("main > a");
-    slide.addEventListener("click", scroll(slide));
+    slide.addEventListener("click", (event) => {
+      event.preventDefault();
+      scroll(slide);
+    });
   };
   nextSlide();
 
@@ -322,7 +323,7 @@ window.addEventListener("DOMContentLoaded", function () {
         /* Обрезка от лишних символов в пути к картинке
         Искать вождение с /images, любое количество символов {0,}
         До jpg флаг g ищет всю строку, а не только первое вхождение*/
-        let result = srcReg.match(/\/images.{0,}jpg/g);
+        let result = srcReg.match(/\/images.{0,}/g);
         /* заменяю полное вхождение на обрезанное и присваиваю в ту же переменную, тем самы перезаписав её*/
         srcReg = srcReg.replace(srcReg, result);
       });
