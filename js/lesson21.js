@@ -390,12 +390,12 @@ window.addEventListener("DOMContentLoaded", function () {
       email.value = email.value.replace(/^-|-$/g, "");
     });
 
-    phone.addEventListener("blur", () => {
+    phone.addEventListener("input", () => {
       // [^0-9] Обрезает все символы кроме цифр
       phone.value = phone.value.replace(/[^0-9()-]/g, "");
     });
 
-    phone.addEventListener("input", () => {
+    phone.addEventListener("blur", () => {
       // Обрезает 2 и более тире
       phone.value = phone.value.replace(/-{1,}/g, "-");
       // Удаляет тире в начале и конце строки
