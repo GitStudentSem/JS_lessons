@@ -409,7 +409,7 @@ window.addEventListener("DOMContentLoaded", function () {
   const calculatorForm = () => {
     let inputs = document.querySelectorAll(".calc-block > input");
     inputs.forEach((input) => {
-      input.addEventListener("blur", () => {
+      input.addEventListener("input", () => {
         // [^0-9] Обрезает все символы кроме цифр
         // ^ это отрицание т.е. будет обрезано всё что не цифра
         input.value = input.value.replace(/[^0-9]/g, "");
@@ -432,4 +432,62 @@ window.addEventListener("DOMContentLoaded", function () {
     });
   };
   footerForm();
+
+  // Калькулятор
+  const calc = (price = 100) => {
+    const calcBlock = document.querySelector(".calc-block");
+    const calcType = document.querySelector(".calc-type");
+    const calcSquare = document.querySelector(".calc-square");
+    const calcDay = document.querySelector(".calc-day");
+    const calcCount = document.querySelector(".calc-count");
+    const totalValue = document.getElementById("total");
+
+    const countSum = () => {
+      let total = 0;
+      let countValue = 1;
+      let dayValue = 1;
+      const typeValue = calcType.options[calcType.selectedIndex].value;
+      const squareValue = +calcSquare.value;
+
+      if (calcCount.value > 1) {
+        countValue += (calcCount.value - 1) / 10;
+      }
+
+      if (calcDay.value && calcDay.value < 5) {
+        dayValue *= 2;
+      } else if (calcDay.value && calcDay.value < 10) {
+        dayValue *= 1.5;
+      }
+
+      if (typeValue && squareValue) {
+        total = price * typeValue * squareValue * countValue * dayValue;
+        let i = 0;
+        const counting = () => {
+          if (i <= total && total <= 10000) {
+            totalValue.textContent = i;
+            i += 10;
+          } else if (total > 10000) {
+            totalValue.textContent = i;
+            i += 100;
+          } else {
+            clearInterval(counter);
+          }
+        };
+        const counter = setInterval(counting, 1);
+      }
+    };
+
+    calcBlock.addEventListener("change", (event) => {
+      const target = event.target;
+      if (
+        target === calcType ||
+        target === calcSquare ||
+        target === calcDay ||
+        target === calcCount
+      ) {
+        countSum();
+      }
+    });
+  };
+  calc(100);
 });
