@@ -462,20 +462,18 @@ window.addEventListener("DOMContentLoaded", function () {
 
       if (typeValue && squareValue) {
         total = price * typeValue * squareValue * countValue * dayValue;
-        let i = 0;
-        const counting = () => {
-          if (i <= total && total <= 10000) {
-            totalValue.textContent = i;
-            i += 10;
-          } else if (total > 10000) {
-            totalValue.textContent = i;
-            i += 100;
-          } else {
-            clearInterval(counter);
-          }
-        };
-        const counter = setInterval(counting, 1);
       }
+      ///////////
+      let i = 0;
+      const counting = () => {
+        if (i <= total) {
+          totalValue.textContent = i;
+          i += 100;
+        } else {
+          clearInterval(counter);
+        }
+      };
+      const counter = setInterval(counting, 1);
     };
 
     calcBlock.addEventListener("change", (event) => {
