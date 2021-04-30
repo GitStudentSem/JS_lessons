@@ -312,18 +312,18 @@ window.addEventListener("DOMContentLoaded", function () {
   // Подмена фото при наведении
   const photoHover = () => {
     const photos = document.querySelectorAll(".command__photo");
-    // Переменная для хранения src картинки
-    let srcReg;
-
-    photos.forEach((photo) => {
-      photo.addEventListener("mouseenter", (event) => {
-        srcReg = event.target.src;
-        event.target.src = event.target.dataset.img;
-      });
-
-      photo.addEventListener("mouseleave", (event) => {
-        event.target.src = srcReg;
-      });
+    photos.forEach((item) => {
+      const changeImg = () => {
+        // Сохранение значений src и data в переменные
+        const src = item.src;
+        const data = item.dataset.img;
+        // Замена одного значения на другое
+        item.src = data;
+        item.dataset.img = src;
+      };
+      // Вызов функции при разных событиях
+      item.addEventListener("mouseenter", changeImg);
+      item.addEventListener("mouseleave", changeImg);
     });
   };
   photoHover();
