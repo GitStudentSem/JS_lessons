@@ -318,7 +318,6 @@ window.addEventListener("DOMContentLoaded", function () {
     photos.forEach((photo) => {
       photo.addEventListener("mouseenter", (event) => {
         srcReg = event.target.src;
-        console.log("srcReg: ", srcReg);
         event.target.src = event.target.dataset.img;
       });
 
@@ -329,26 +328,8 @@ window.addEventListener("DOMContentLoaded", function () {
   };
   photoHover();
 
-  // Валидация калькулятора
-  const calculatorForm = () => {
-    let inputs = document.querySelectorAll(".calc-block > input");
-    inputs.forEach((input) => {
-      input.addEventListener("blur", () => {
-        // [^0-9] Обрезает все символы кроме цифр
-        // ^ это отрицание т.е. будет обрезано всё что не цифра
-        input.value = input.value.replace(/[^0-9]/g, "");
-      });
-    });
-  };
-  calculatorForm();
-
-  //Валидация формы в подвале
-  const footerForm = () => {
-    const name = document.getElementById("form2-name");
-    const email = document.getElementById("form2-email");
-    const phone = document.getElementById("form2-phone");
-    const message = document.getElementById("form2-message");
-
+  // Валидация контактных данных
+  const validateContact = (name, email, phone) => {
     name.addEventListener("input", () => {
       // [^а-яё\-\s] Обрезает все символы кроме русских букв тире и пробел
       name.value = name.value.replace(/[^а-яё-\s]/gi, "");
@@ -379,8 +360,11 @@ window.addEventListener("DOMContentLoaded", function () {
     });
 
     email.addEventListener("input", () => {
+      let temp = email.value;
+      email.value = "a";
+      email.value = temp;
       // [^a-z@-_.!~*'] Обрезает все символы кроме указанных
-      email.value = email.value.replace(/[^a-z@-_.!~'*]/g, "");
+      email.value = email.value.replace(/[^a-z@\-_.!~'*]/g, "");
     });
 
     email.addEventListener("blur", () => {
@@ -401,6 +385,47 @@ window.addEventListener("DOMContentLoaded", function () {
       // Удаляет тире в начале и конце строки
       phone.value = phone.value.replace(/^-|-$/g, "");
     });
+  };
+
+  // Валидация данных на главном экране
+  const mainForm = () => {
+    const name = document.getElementById("form1-name");
+    const email = document.getElementById("form1-email");
+    const phone = document.getElementById("form1-phone");
+    validateContact(name, email, phone);
+  };
+  mainForm();
+
+  // Валидация попап окна
+  const popupForm = () => {
+    const name = document.getElementById("form3-name");
+    const email = document.getElementById("form3-email");
+    const phone = document.getElementById("form3-phone");
+    validateContact(name, email, phone);
+  };
+  popupForm();
+
+  // Валидация калькулятора
+  const calculatorForm = () => {
+    let inputs = document.querySelectorAll(".calc-block > input");
+    inputs.forEach((input) => {
+      input.addEventListener("blur", () => {
+        // [^0-9] Обрезает все символы кроме цифр
+        // ^ это отрицание т.е. будет обрезано всё что не цифра
+        input.value = input.value.replace(/[^0-9]/g, "");
+      });
+    });
+  };
+  calculatorForm();
+
+  //Валидация формы в подвале
+  const footerForm = () => {
+    const name = document.getElementById("form2-name");
+    const email = document.getElementById("form2-email");
+    const phone = document.getElementById("form2-phone");
+    const message = document.getElementById("form2-message");
+
+    validateContact(name, email, phone);
 
     message.addEventListener("input", () => {
       message.value = message.value.replace(/[^а-яё-\s]/gi, "");
