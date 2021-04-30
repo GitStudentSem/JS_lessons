@@ -360,9 +360,9 @@ window.addEventListener("DOMContentLoaded", function () {
     });
 
     email.addEventListener("input", () => {
-      let temp = email.value;
+      let space = email.value;
       email.value = "a";
-      email.value = temp;
+      email.value = space;
       // [^a-z@-_.!~*'] Обрезает все символы кроме указанных
       email.value = email.value.replace(/[^a-z@\-_.!~'*]/g, "");
     });
