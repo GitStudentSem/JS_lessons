@@ -463,17 +463,37 @@ window.addEventListener("DOMContentLoaded", function () {
       if (typeValue && squareValue) {
         total = price * typeValue * squareValue * countValue * dayValue;
       }
-      ///////////
-      let i = 0;
-      const counting = () => {
-        if (i <= total) {
-          totalValue.textContent = i;
-          i += 100;
-        } else {
-          clearInterval(counter);
-        }
+
+      // Плавный счетчик расчет анимации
+      const animate = ({ timing, draw, duration }) => {
+        let start = performance.now();
+        requestAnimationFrame(function animate(time) {
+          let timeFraction = (time - start) / duration;
+          if (timeFraction > 1) {
+            timeFraction = 1;
+          }
+          let progress = timing(timeFraction);
+          draw(progress);
+          if (timeFraction < 1) {
+            requestAnimationFrame(animate);
+          }
+        });
       };
-      const counter = setInterval(counting, 1);
+
+      // Вызов анимации с параметрами
+      const counter = () => {
+        totalValue.textContent = 0;
+        animate({
+          duration: 1000,
+          timing(timeFraction) {
+            return timeFraction;
+          },
+          draw(progress) {
+            totalValue.textContent = Math.floor(total * progress);
+          },
+        });
+      };
+      counter();
     };
 
     calcBlock.addEventListener("change", (event) => {
