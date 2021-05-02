@@ -387,6 +387,14 @@ window.addEventListener("DOMContentLoaded", function () {
       phone.value = phone.value.replace(/^-|-$/g, "");
     });
   };
+  // Валидация попап окна
+  const popupFormValid = () => {
+    const name = document.getElementById("form3-name");
+    const email = document.getElementById("form3-email");
+    const phone = document.getElementById("form3-phone");
+    validateContact(name, email, phone);
+  };
+  popupFormValid();
 
   // Валидация данных на главном экране
   const mainForm = () => {
@@ -396,15 +404,6 @@ window.addEventListener("DOMContentLoaded", function () {
     validateContact(name, email, phone);
   };
   mainForm();
-
-  // Валидация попап окна
-  const popupForm = () => {
-    const name = document.getElementById("form3-name");
-    const email = document.getElementById("form3-email");
-    const phone = document.getElementById("form3-phone");
-    validateContact(name, email, phone);
-  };
-  popupForm();
 
   // Валидация калькулятора
   const calculatorForm = () => {
@@ -432,7 +431,7 @@ window.addEventListener("DOMContentLoaded", function () {
       message.value = message.value.replace(/[^а-яё-\s]/gi, "");
     });
   };
-  footerForm();
+  // footerForm();
 
   // Калькулятор
   const calc = (price = 100) => {
