@@ -576,39 +576,16 @@
       const form1 = new Validator({
         selector: "#form1",
         pattern: {
-          phone: /^\+380\d{7}$/,
+          phone: /^\+?[78]([-()]*\d){10}$/,
           zip: /\d{5, 6}/,
         },
         method: {
-          phone: [["notEmpty"], ["pattern", "phone"]],
-          email: [["notEmpty"], ["pattern", "email"]],
+          "form1-name": [["notEmpty"], ["pattern", "name"]],
+          "form1-email": [["notEmpty"], ["pattern", "email"]],
+          "form1-phone": [["notEmpty"], ["pattern", "phone"]],
         },
       });
       form1.init();
-      const form2 = new Validator({
-        selector: "#form2",
-        pattern: {
-          phone: /^\+380\d{7}$/,
-          zip: /\d{5, 6}/,
-        },
-        method: {
-          phone: [["notEmpty"], ["pattern", "phone"]],
-          email: [["notEmpty"], ["pattern", "email"]],
-        },
-      });
-      form2.init();
-      const form3 = new Validator({
-        selector: "#form3",
-        pattern: {
-          //phone: /^\+380\d{7}$/,
-          zip: /\d{5, 6}/,
-        },
-        method: {
-          phone: [["notEmpty"], ["pattern", "phone"]],
-          email: [["notEmpty"], ["pattern", "email"]],
-        },
-      });
-      form3.init();
     </script>
   </body>
 </html>

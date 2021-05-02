@@ -120,5 +120,8 @@ class Validator {
     if (!this.pattern.email) {
       this.pattern.email = /^\w+@\w+\.\w{2,}$/;
     }
+    if (!this.pattern.name) {
+      this.pattern.name = /[а-яё]/gi;
+    }
   }
 }
