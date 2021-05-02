@@ -570,14 +570,13 @@
         </div>
       </div>
     </div>
-    <script src="./js/validator.js"></script>
     <script src="./js/lesson24R.js"></script>
+    <script src="./js/validator.js"></script>
     <script>
       const form1 = new Validator({
         selector: "#form1",
         pattern: {
           phone: /^\+?[78]([-()]*\d){10}$/,
-          zip: /\d{5, 6}/,
         },
         method: {
           "form1-name": [["notEmpty"], ["pattern", "name"]],
