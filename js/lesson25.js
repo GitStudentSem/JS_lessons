@@ -509,4 +509,28 @@ window.addEventListener("DOMContentLoaded", function () {
     });
   };
   calc(100);
+
+  // Отправка формы через аякс
+  const sendForm = () => {
+    const errorMessage = "Что-то пошло не так...";
+    const loadMessage = "Загрузка...";
+    const successMessage = "Спасибо! Мы с вами свяжемся!";
+
+    const form = document.getElementById("form1");
+
+    const statusMessage = document.createElement("div");
+    statusMessage.style.cssText = "font-size: 2rem;";
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      form.appendChild(statusMessage);
+
+      const request = new XMLHttpRequest();
+      request.open("POST", "./server.php");
+      request.setRequestHeader("Content-Type", "multipart/form-data");
+      const formData = new FormData(form);
+      request.send(formData);
+    });
+  };
+  sendForm();
 });
