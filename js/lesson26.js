@@ -332,7 +332,7 @@ window.addEventListener("DOMContentLoaded", function () {
   const validateContact = (name, email, phone) => {
     name.addEventListener("input", () => {
       // [^а-яё\-\s] Обрезает все символы кроме русских букв тире и пробел
-      name.value = name.value.replace(/[^а-яё-\s]/gi, "");
+      name.value = name.value.replace(/[^а-яё\s]/gi, "");
     });
     name.addEventListener("blur", () => {
       // Заменяет 2 и более тире на один
@@ -377,7 +377,7 @@ window.addEventListener("DOMContentLoaded", function () {
 
     phone.addEventListener("input", () => {
       // [^0-9] Обрезает все символы кроме цифр
-      phone.value = phone.value.replace(/[^0-9()-]/g, "");
+      phone.value = phone.value.replace(/[^0-9+]/g, "");
     });
 
     phone.addEventListener("blur", () => {
@@ -429,7 +429,7 @@ window.addEventListener("DOMContentLoaded", function () {
     validateContact(name, email, phone);
 
     message.addEventListener("input", () => {
-      message.value = message.value.replace(/[^а-яё-\s]/gi, "");
+      message.value = message.value.replace(/[^а-яё\s0-9,.-:;'"/\\]/gi, "");
     });
   };
   footerForm();
@@ -511,26 +511,74 @@ window.addEventListener("DOMContentLoaded", function () {
   calc(100);
 
   // Отправка формы через аякс
-  const sendForm = () => {
+  // const form = document.getElementById("form1");
+  const sendForm = (form) => {
     const errorMessage = "Что-то пошло не так...";
     const loadMessage = "Загрузка...";
     const successMessage = "Спасибо! Мы с вами свяжемся!";
 
-    const form = document.getElementById("form1");
-
     const statusMessage = document.createElement("div");
     statusMessage.style.cssText = "font-size: 2rem;";
+
+    const clearForm = () => {
+      let name = form.elements.user_name;
+      let email = form.elements.user_email;
+      let phone = form.elements.user_phone;
+
+      name.value = "";
+      email.value = "";
+      phone.value = "";
+    };
 
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       form.appendChild(statusMessage);
+      statusMessage.textContent = loadMessage;
 
-      const request = new XMLHttpRequest();
-      request.open("POST", "./server.php");
-      request.setRequestHeader("Content-Type", "multipart/form-data");
+      clearForm();
+
       const formData = new FormData(form);
-      request.send(formData);
+      let body = {};
+
+      for (let val of formData.entries()) {
+        body[val[0]] = val[1];
+      }
+      postData(
+        body,
+        () => {
+          statusMessage.textContent = successMessage;
+        },
+        (error) => {
+          statusMessage.textContent = errorMessage;
+          console.error(error);
+        }
+      );
     });
+
+    const postData = (body, outputData, errorData) => {
+      const request = new XMLHttpRequest();
+
+      /* Слушатель стоит сразу после создания реквеста, 
+      что бы отслеживать все 4 этапа работы с данными 
+      И надпись "загрузка" будет отрабатывать пока не получим статус 4*/
+      request.addEventListener("readystatechange", () => {
+        if (request.readyState !== 4) {
+          return;
+        }
+
+        if (request.status === 200) {
+          outputData();
+        } else {
+          errorData(request.status);
+        }
+      });
+
+      request.open("POST", "./server.php");
+      request.setRequestHeader("Content-Type", "application/json");
+
+      request.send(JSON.stringify(body));
+    };
   };
-  sendForm();
+  sendForm(document.getElementById("form3"));
+  sendForm(document.getElementById("form2"));
 });
