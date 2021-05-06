@@ -521,21 +521,13 @@ window.addEventListener("DOMContentLoaded", function () {
     statusMessage.style.cssText = "font-size: 2rem;";
 
     const clearForm = () => {
-      let name = form.elements.user_name;
-      let email = form.elements.user_email;
-      let phone = form.elements.user_phone;
-
-      name.value = "";
-      email.value = "";
-      phone.value = "";
+      form.reset();
     };
 
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       form.appendChild(statusMessage);
       statusMessage.textContent = loadMessage;
-
-      clearForm();
 
       const formData = new FormData(form);
       let body = {};
@@ -568,8 +560,10 @@ window.addEventListener("DOMContentLoaded", function () {
 
         if (request.status === 200) {
           outputData();
+          clearForm();
         } else {
           errorData(request.status);
+          clearForm();
         }
       });
 
