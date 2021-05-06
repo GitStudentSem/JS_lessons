@@ -573,6 +573,7 @@ window.addEventListener("DOMContentLoaded", function () {
       request.send(JSON.stringify(body));
     };
   };
-  sendForm(document.getElementById("form3"));
+  sendForm(document.getElementById("form1"));
   sendForm(document.getElementById("form2"));
+  sendForm(document.getElementById("form3"));
 });
