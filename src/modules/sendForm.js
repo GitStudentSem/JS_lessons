@@ -31,7 +31,6 @@ const sendForm = (form) => {
         setTimeout(clearMessage, 3000);
       })
       .catch((error) => {
-        console.error(error);
         statusMessage.textContent = errorMessage;
         form.reset();
         setTimeout(clearMessage, 3000);
