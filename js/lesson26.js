@@ -520,10 +520,6 @@ window.addEventListener("DOMContentLoaded", function () {
     const statusMessage = document.createElement("div");
     statusMessage.style.cssText = "font-size: 2rem;";
 
-    const clearForm = () => {
-      form.reset();
-    };
-
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       form.appendChild(statusMessage);
@@ -535,6 +531,18 @@ window.addEventListener("DOMContentLoaded", function () {
       for (let val of formData.entries()) {
         body[val[0]] = val[1];
       }
+      ////
+      postData(body)
+        .then(() => {
+          statusMessage.textContent = successMessage;
+          form.reset();
+        })
+        .catch((error) => {
+          console.error(error);
+          statusMessage.textContent = errorMessage;
+          form.reset();
+        });
+      ////
       postData(
         body,
         () => {
@@ -547,32 +555,33 @@ window.addEventListener("DOMContentLoaded", function () {
       );
     });
 
-    const postData = (body, outputData, errorData) => {
-      const request = new XMLHttpRequest();
+    const postData = (body) => {
+      return new Promise((resolve, reject) => {
+        const request = new XMLHttpRequest();
 
-      /* Слушатель стоит сразу после создания реквеста, 
-      что бы отслеживать все 4 этапа работы с данными 
-      И надпись "загрузка" будет отрабатывать пока не получим статус 4*/
-      request.addEventListener("readystatechange", () => {
-        if (request.readyState !== 4) {
-          return;
-        }
+        /* Слушатель стоит сразу после создания реквеста, 
+        что бы отслеживать все 4 этапа работы с данными 
+        И надпись "загрузка" будет отрабатывать пока не получим статус 4*/
+        request.addEventListener("readystatechange", () => {
+          if (request.readyState !== 4) {
+            return;
+          }
 
-        if (request.status === 200) {
-          outputData();
-          clearForm();
-        } else {
-          errorData(request.status);
-          clearForm();
-        }
+          if (request.status === 200) {
+            resolve(); // outputdata
+          } else {
+            reject(request.status); // errorData();
+          }
+        });
+
+        request.open("POST", "./server.php");
+        request.setRequestHeader("Content-Type", "application/json");
+
+        request.send(JSON.stringify(body));
       });
-
-      request.open("POST", "./server.php");
-      request.setRequestHeader("Content-Type", "application/json");
-
-      request.send(JSON.stringify(body));
     };
   };
+
   sendForm(document.getElementById("form1"));
   sendForm(document.getElementById("form2"));
   sendForm(document.getElementById("form3"));
