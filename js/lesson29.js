@@ -525,6 +525,10 @@ window.addEventListener("DOMContentLoaded", function () {
       form.appendChild(statusMessage);
       statusMessage.textContent = loadMessage;
 
+      const clearMessage = () => {
+        statusMessage.textContent = "";
+      };
+
       const formData = new FormData(form);
       let body = {};
 
@@ -538,11 +542,13 @@ window.addEventListener("DOMContentLoaded", function () {
           }
           statusMessage.textContent = successMessage;
           form.reset();
+          setTimeout(clearMessage, 3000);
         })
         .catch((error) => {
           console.error(error);
           statusMessage.textContent = errorMessage;
           form.reset();
+          setTimeout(clearMessage, 3000);
         });
     });
     const postData = (body) => {
