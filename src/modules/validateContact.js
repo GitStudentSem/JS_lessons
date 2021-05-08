@@ -40,7 +40,7 @@ const validateContact = (name, email, phone) => {
     // email.value = space;
     // [^a-z@-_.!~*'] Обрезает все символы кроме указанных
     // email.value = email.value.replace(/[^\w@.]/g, "");
-    email.value = email.value.replace(/[^a-z@\-_.!~'*]/g, "");
+    email.value = email.value.replace(/[^a-z0-9@\-_.!~'*]/g, "");
   });
 
   email.addEventListener("blur", () => {
@@ -48,37 +48,85 @@ const validateContact = (name, email, phone) => {
     if (email.value !== "") {
       const validate = (email) => {
         // Проверка на правильность вида e-mail
-        const reg = /^([a-z@\-_.!~'*]+\.)*[a-z@\-_.!~'*]+@[a-z@\-_.!~'*]+(\.[a-z@\-_.!~'*]+)*\.[a-z]{2,6}$/;
+        const reg = /^([a-z0-9@\-_.!~'*]+\.)*[a-z0-9@\-_.!~'*]+@[a-z0-9@\-_.!~'*]+(\.[a-z0-9@\-_.!~'*]+)*\.[a-z]{2,6}$/;
         if (reg.test(email.value) === false) {
           alert("Введите корректный e-mail");
           return false;
         }
       };
       validate(email);
-    }
-
-    // Обрезает 2 и более тире
-    email.value = email.value.replace(/-{1,}/g, "-");
-    // Удаляет тире в начале и конце строки
-    email.value = email.value.replace(/^-|-$/g, "");
-  });
-
-  phone.addEventListener("input", () => {
-    // [^0-9] Обрезает все символы кроме цифр
-    phone.value = phone.value.replace(/[^0-9+]/g, "");
-  });
-
-  phone.addEventListener("blur", () => {
-    if (phone.value.length <= 12) {
       // Обрезает 2 и более тире
-      phone.value = phone.value.replace(/-{1,}/g, "-");
+      email.value = email.value.replace(/-{1,}/g, "-");
       // Удаляет тире в начале и конце строки
-      phone.value = phone.value.replace(/^-|-$/g, "");
-    } else {
-      phone.value = "";
-      alert("Телефон должен содержать не более 12 символов!");
+      email.value = email.value.replace(/^-|-$/g, "");
     }
   });
+
+  // phone.addEventListener("input", () => {
+  //   // [^0-9] Обрезает все символы кроме цифр
+  //   phone.value = phone.value.replace(/[^0-9+]/g, "");
+  // });
+
+  // phone.addEventListener("blur", () => {
+  //   if (phone.value.length <= 12) {
+  //     // Обрезает 2 и более тире
+  //     phone.value = phone.value.replace(/-{1,}/g, "-");
+  //     // Удаляет тире в начале и конце строки
+  //     phone.value = phone.value.replace(/^-|-$/g, "");
+  //   } else {
+  //     phone.value = "";
+  //     alert("Телефон должен содержать не более 12 символов!");
+  //   }
+  // });
+  ///////////////////////////
+  // Валидатор который давал Макс
+  function maskPhone(selector, masked = "+7 (___) ___-__-__") {
+    const elems = document.querySelectorAll(selector);
+
+    function mask(event) {
+      const keyCode = event.keyCode;
+      const template = masked,
+        def = template.replace(/\D/g, ""),
+        val = this.value.replace(/\D/g, "");
+      let i = 0,
+        newValue = template.replace(/[_\d]/g, function (a) {
+          return i < val.length ? val.charAt(i++) || def.charAt(i) : a;
+        });
+      i = newValue.indexOf("_");
+      if (i != -1) {
+        newValue = newValue.slice(0, i);
+      }
+      let reg = template
+        .substr(0, this.value.length)
+        .replace(/_+/g, function (a) {
+          return "\\d{1," + a.length + "}";
+        })
+        .replace(/[+()]/g, "\\$&");
+      reg = new RegExp("^" + reg + "$");
+      if (
+        !reg.test(this.value) ||
+        this.value.length < 5 ||
+        (keyCode > 47 && keyCode < 58)
+      ) {
+        this.value = newValue;
+      }
+      if (event.type == "blur" && this.value.length < 5) {
+        this.value = "";
+      }
+    }
+
+    for (const elem of elems) {
+      elem.addEventListener("input", mask);
+      elem.addEventListener("focus", mask);
+      elem.addEventListener("blur", mask);
+    }
+  }
+
+  // use
+
+  maskPhone("#form1-phone");
+  maskPhone("#form2-phone");
+  maskPhone("#form3-phone");
 };
 
 export default validateContact;

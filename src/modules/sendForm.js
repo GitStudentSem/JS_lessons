@@ -4,7 +4,7 @@ const sendForm = (form) => {
   const successMessage = "Спасибо! Мы с вами свяжемся!";
 
   const statusMessage = document.createElement("div");
-  statusMessage.style.cssText = "font-size: 2rem;";
+  statusMessage.style.cssText = "font-size: 2rem; color: white;";
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -13,6 +13,9 @@ const sendForm = (form) => {
 
     const clearMessage = () => {
       statusMessage.textContent = "";
+      // Закрытие модального окна
+      const popup = document.querySelector(".popup");
+      popup.style.display = "none";
     };
 
     const formData = new FormData(form);
@@ -20,6 +23,10 @@ const sendForm = (form) => {
 
     for (let val of formData.entries()) {
       body[val[0]] = val[1];
+    }
+    ///////////////////////////////////////////////////////
+    if (body.user_email === "") {
+      console.log("Мыло пустое");
     }
     postData(body)
       .then((response) => {

@@ -27,6 +27,7 @@ const toggleMenu = () => {
       openMenu();
       // Нажатие на крестик
     } else if (target.closest(".close-btn")) {
+      event.preventDefault();
       closeMenu();
       // Нажатие вне меню
     } else if (!target.closest(".active-menu")) {
